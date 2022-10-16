@@ -59,7 +59,7 @@ public class LugaresLista implements RepositorioLugares {
                 "https://movistararena.co/", "Centro de eventos en Bogotá",
                 4));
         agrega(new Lugar("Páramo de Santurbán", "Silos, Santander", "none"
-                ,-72.90982,7.2466845, TipoLugar.NATURALEZA,0,
+                ,-72.90982,7.2466845, TipoLugar.BANCO,0,
                 "SIN DATOS", "Lugar entre los departamentos Santander y Norte de Santander",
                 4));
         agrega(new Lugar("Loma Mesa de Ruitoque", "Loma Mesa de Ruitoque, Floridablanca, Santander",

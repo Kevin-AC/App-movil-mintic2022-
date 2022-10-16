@@ -1,8 +1,10 @@
 package com.example.app_prueba.presentacion;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
+import com.example.app_prueba.caso_uso.CasoUsoActividad;
+import com.example.app_prueba.caso_uso.CasosUsoLugar;
 import com.example.app_prueba.datos.LugaresLista;
 import com.example.app_prueba.datos.RepositorioLugares;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -21,6 +27,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnSalir;
+    private RepositorioLugares lugares;
+    private CasosUsoLugar usoLugar;
+    private CasoUsoActividad usoActividades;
     TextView mensaje;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        lugares = ((Aplicacion)getApplication()).lugares;
+        usoLugar = new CasosUsoLugar(this,lugares);
+        usoActividades = new CasoUsoActividad(this);
+
         //barra de acciones
         Toolbar toolbar = findViewById(R.id.toolbar_Main);
         setSupportActionBar(toolbar);
@@ -69,10 +82,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.acercaDe){
-            lanzarAcercaDe(null);
+            //lanzarAcercaDe(null);
+            usoActividades.lanzarAcercadDe();
             return true;
         }
         if (id == R.id.menu_buscar){
+            lanzarVistaLugar(null);
             Log.d("Tag main","clic a la opcion buscar");
             return true;
         }
@@ -84,6 +99,25 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void lanzarVistaLugar(View view){//crea alerta de dialogo con edit text
+        final EditText entrada = new EditText(this);
+        entrada.setText("0");
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.elijaId)
+                .setMessage("indica id de lugar:")
+                .setView(entrada)
+                .setPositiveButton("Ok", new
+                        DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int
+                                    whichButton) {
+                                int id = Integer.parseInt
+                                        (entrada.getText().toString());
+                                usoLugar.mostrar(id);
+                            }})
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
     public void lanzarAcercaDe(View view){
         Intent abrir = new Intent(this, AcercaDeActivity.class);
         startActivity(abrir);

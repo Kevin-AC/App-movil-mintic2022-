@@ -20,6 +20,9 @@
     <string name="notas">Introduce tus notas</string>
     <string name="todo">TODO</string>
     <string name="frase_acercade">Esta app ha sido desarrollada en ciclo 4b de la misionTIc2022</string>
+    <string name="elijaId">Seleccione un Lugar x ID</string>
+    <string name="vistaLugar">Visa Lugar</string>
+    <string name="edicionLugar">Edición lugar</string>
 
 
 </resources>

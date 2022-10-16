@@ -31,6 +31,17 @@
             android:label="@string/accion_acerca_de"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog"
             />
+        <activity
+            android:name=".presentacion.VistaLugarActivity"
+            android:label="@string/vistaLugar"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".presentacion.EdicionLugarActivity"
+            android:label="@string/edicionLugar"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
+
 
 </manifest>
