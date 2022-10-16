@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout">
+        <TextView
+            android:id="@+id/t_nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nombre"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:hint="@string/identificar_el_lugar"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColorHint="#555A5A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_nombre"
+            tools:ignore="TextContrastCheck,TouchTargetSizeCheck">
+
+            <requestFocus />
+        </EditText>
+        <TextView
+            android:id="@+id/t_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_lugar"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nombre"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <Spinner
+            android:id="@+id/tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/t_tipo"
+            app:layout_constraintTop_toTopOf="@id/t_tipo"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/t_direccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_tipo"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/direccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:hint="@string/direccion_lugar"
+            android:importantForAutofill="no"
+            android:inputType="textPostalAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_direccion"
+            tools:ignore="TextContrastCheck,TextContrastCheck,TouchTargetSizeCheck" />
+        <TextView
+            android:id="@+id/t_telefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/telefono"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/direccion"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/telefono"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/tel_contacto"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            app:layout_constraintBaseline_toBaselineOf="@+id/t_telefono"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintLeft_toRightOf="@id/t_telefono"
+            app:layout_constraintStart_toEndOf="@+id/t_telefono"
+            tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/t_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/url"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/telefono" />
+
+        <EditText
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:hint="@string/web"
+            android:importantForAutofill="no"
+            android:inputType="textUri"
+            android:textColorHint="#546E7A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_url"
+            tools:ignore="TouchTargetSizeCheck" />
+        <TextView
+            android:id="@+id/t_comentario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comentario"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/url"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/comentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:hint="@string/notas"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:textColorHint="#546E7A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_comentario"
+            tools:ignore="TouchTargetSizeCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

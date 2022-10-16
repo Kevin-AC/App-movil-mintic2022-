@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".presentacion.MainActivity">
+    <!-- tools:showIn="@layout/activity_main">-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accion_mostrar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Button
+            android:id="@+id/button02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accion_preferencias"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </Button>
+        <Button
+            android:id="@+id/button03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accion_acerca_de"
+            android:onClick="lanzarAcercaDe"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button02">
+
+        </Button>
+        <Button
+            android:id="@+id/button04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accion_salir"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button03">
+
+        </Button>
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
