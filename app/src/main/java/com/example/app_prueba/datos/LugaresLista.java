@@ -58,9 +58,9 @@ public class LugaresLista implements RepositorioLugares {
                 -74.07695,4.64888, TipoLugar.ESPECTACULO, 5470183,
                 "https://movistararena.co/", "Centro de eventos en Bogotá",
                 4));
-        agrega(new Lugar("Páramo de Santurbán", "Silos, Santander", "none"
+        agrega(new Lugar("la estrella", "Silos, Santander", "none"
                 ,-72.90982,7.2466845, TipoLugar.BANCO,0,
-                "SIN DATOS", "Lugar entre los departamentos Santander y Norte de Santander",
+                "SIN DATOS", "mejor banco",
                 4));
         agrega(new Lugar("Loma Mesa de Ruitoque", "Loma Mesa de Ruitoque, Floridablanca, Santander",
                 "none",0,0, TipoLugar.BAR, 0, "SIN DATOS",
