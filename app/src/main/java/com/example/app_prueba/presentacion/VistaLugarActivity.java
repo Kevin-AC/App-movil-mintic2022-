@@ -1,5 +1,6 @@
 package com.example.app_prueba.presentacion;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,19 +20,22 @@ import java.text.DateFormat;
 import java.util.Date;
 
 public class VistaLugarActivity extends AppCompatActivity {
+
     private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private int pos;
     private Lugar lugar;
+    final static int RESULTADO_EDITAR = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vista_lugar);
+
         Bundle extras = getIntent().getExtras();
-        pos = extras.getInt("pos",0);
-        lugares = ((Aplicacion)getApplication()).lugares;
-        usoLugar = new CasosUsoLugar(this,lugares);
+        pos = extras.getInt("pos", 0);
+        lugares = ((Aplicacion) getApplication()).lugares;
+        usoLugar = new CasosUsoLugar(this, lugares);
         lugar = lugares.elemento(pos);
         actualizaVistas();
     }
@@ -87,7 +91,7 @@ public class VistaLugarActivity extends AppCompatActivity {
             case R.id.accion_llegar:
                 return true;
             case R.id.accion_editar:
-                usoLugar.editar(pos);
+                usoLugar.editar(pos,RESULTADO_EDITAR);
                 return true;
             case R.id.accion_borrar:
                 usoLugar.borrar(pos);
@@ -96,4 +100,13 @@ public class VistaLugarActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override protected void onActivityResult(int requestCode,
+                                              int resultCode, Intent data) {
+        if (requestCode == RESULTADO_EDITAR){
+            actualizaVistas();
+            findViewById(R.id.scrollView1).invalidate();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
+

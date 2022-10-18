@@ -7,6 +7,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.app_prueba.datos.RepositorioLugares;
+import com.example.app_prueba.modelo.Lugar;
 import com.example.app_prueba.presentacion.EdicionLugarActivity;
 import com.example.app_prueba.presentacion.VistaLugarActivity;
 
@@ -41,9 +42,13 @@ public class CasosUsoLugar {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-    public void editar(int pos) {
-        Intent intent_ed_lugar = new Intent(actividad,
-                EdicionLugarActivity.class);
-        actividad.startActivity(intent_ed_lugar);
+    public void editar(int pos, int codigoSolicitud) {
+        Intent intent_ed_lugar = new Intent(actividad, EdicionLugarActivity.class);
+        intent_ed_lugar.putExtra("pos",pos);
+        actividad.startActivityForResult(intent_ed_lugar,codigoSolicitud);
+    }
+
+    public void guardar(int id, Lugar nuevoLugar){
+        lugares.actualizar(id,nuevoLugar);
     }
 }

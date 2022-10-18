@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -20,21 +19,15 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
-
         <EditText
             android:id="@+id/nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:hint="@string/identificar_el_lugar"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:textColorHint="#555A5A"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/t_nombre"
-            tools:ignore="TextContrastCheck,TouchTargetSizeCheck">
-
-            <requestFocus />
+            android:layout_marginStart="8dp">
+            <requestFocus/>
         </EditText>
         <TextView
             android:id="@+id/t_tipo"
@@ -46,14 +39,12 @@
             app:layout_constraintTop_toBottomOf="@id/nombre"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
-
         <Spinner
             android:id="@+id/tipo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/t_tipo"
             app:layout_constraintTop_toTopOf="@id/t_tipo"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            app:layout_constraintLeft_toRightOf="@id/t_tipo"/>
         <TextView
             android:id="@+id/t_direccion"
             android:layout_width="wrap_content"
@@ -64,18 +55,15 @@
             app:layout_constraintTop_toBottomOf="@id/t_tipo"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
-
         <EditText
             android:id="@+id/direccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:hint="@string/direccion_lugar"
-            android:importantForAutofill="no"
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/t_direccion"
-            tools:ignore="TextContrastCheck,TextContrastCheck,TouchTargetSizeCheck" />
+            android:layout_marginStart="8dp"/>
         <TextView
             android:id="@+id/t_telefono"
             android:layout_width="wrap_content"
@@ -86,46 +74,38 @@
             app:layout_constraintTop_toBottomOf="@id/direccion"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
-
         <EditText
             android:id="@+id/telefono"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:hint="@string/tel_contacto"
-            android:importantForAutofill="no"
             android:inputType="phone"
-            app:layout_constraintBaseline_toBaselineOf="@+id/t_telefono"
-            app:layout_constraintEnd_toEndOf="parent"
-
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintLeft_toRightOf="@id/t_telefono"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/t_telefono"
-            tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
+            app:layout_constraintBaseline_toBaselineOf="@+id/t_telefono"/>
         <TextView
             android:id="@+id/t_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/url"
             android:textAppearance="?android:attr/textAppearanceMedium"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/telefono" />
-
+            app:layout_constraintTop_toBottomOf="@id/telefono"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
         <EditText
             android:id="@+id/url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:hint="@string/web"
-            android:importantForAutofill="no"
             android:inputType="textUri"
-            android:textColorHint="#546E7A"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/t_url"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:layout_marginStart="8dp"/>
         <TextView
             android:id="@+id/t_comentario"
             android:layout_width="wrap_content"
@@ -136,18 +116,14 @@
             app:layout_constraintTop_toBottomOf="@id/url"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
-
         <EditText
             android:id="@+id/comentario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:hint="@string/notas"
-            android:importantForAutofill="no"
             android:inputType="textMultiLine"
-            android:textColorHint="#546E7A"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/t_comentario"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:layout_marginStart="8dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
