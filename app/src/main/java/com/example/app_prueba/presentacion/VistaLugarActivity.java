@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -26,6 +27,9 @@ public class VistaLugarActivity extends AppCompatActivity {
     private int pos;
     private Lugar lugar;
     final static int RESULTADO_EDITAR = 1;
+    private TextView nombre, tipo,direccion,telefono,url,comentario,fecha, hora;
+    private ImageView logo_tipo;
+    private RatingBar valoracion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,46 +42,52 @@ public class VistaLugarActivity extends AppCompatActivity {
         usoLugar = new CasosUsoLugar(this, lugares);
         lugar = lugares.elemento(pos);
         actualizaVistas();
+        llamar();
+        verWeb();
     }
-    public void actualizaVistas() {
-        TextView nombre = findViewById(R.id.nombre);
-        nombre.setText(lugar.getNombre());
-
-        ImageView logo_tipo = findViewById(R.id.logo_tipo);
-        logo_tipo.setImageResource(lugar.getTipo().getRecurso());
-
-        TextView tipo = findViewById(R.id.tipo);
-        tipo.setText(lugar.getTipo().getTexto());
-
-        TextView direccion = findViewById(R.id.direccion);
-        direccion.setText(lugar.getDireccion());
-
-        TextView telefono = findViewById(R.id.telefono);
-        telefono.setText(Integer.toString(lugar.getTelefono()));
-
-        TextView url = findViewById(R.id.url);
-        url.setText(lugar.getUrl());
-
-        TextView comentario = findViewById(R.id.comentario);
-        comentario.setText(lugar.getComentario());
-
-        TextView fecha = findViewById(R.id.fecha);
-        fecha.setText(DateFormat.getDateInstance().format(
-                new Date(lugar.getFecha())));
-
-        TextView hora = findViewById(R.id.hora);
-        hora.setText(DateFormat.getTimeInstance().format(//dar formato a fecha hora
-                new Date(lugar.getFecha())));
-
-        RatingBar valoracion = findViewById(R.id.valoracion);
-        valoracion.setRating(lugar.getValoracion());
-        valoracion.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+    public void llamar(){
+        telefono.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
-                lugar.setValoracion(valor);
+            public void onClick(View v) {
+                usoLugar.llamarTelefono(lugar);
             }
         });
     }
+    public void verWeb(){
+        url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usoLugar.verPgWeb(lugar);
+            }
+        });
+    }
+    public void actualizaVistas() {
+        nombre = findViewById(R.id.nombre);
+        nombre.setText(lugar.getNombre());
+        logo_tipo = findViewById(R.id.logo_tipo);
+        logo_tipo.setImageResource(lugar.getTipo().getRecurso());
+        tipo = findViewById(R.id.tipo);
+        tipo.setText(lugar.getTipo().getTexto());
+        direccion = findViewById(R.id.direccion);
+        direccion.setText(lugar.getDireccion());
+        telefono = findViewById(R.id.telefono);
+        telefono.setText(Integer.toString(lugar.getTelefono()));
+        url = findViewById(R.id.url);
+        url.setText(lugar.getUrl());
+        comentario = findViewById(R.id.comentario);
+        comentario.setText(lugar.getComentario());
+        fecha = findViewById(R.id.fecha);
+        fecha.setText(DateFormat.getDateInstance().format(new Date(lugar.getFecha())));
+        hora = findViewById(R.id.hora);
+        hora.setText(DateFormat.getTimeInstance().format(new Date(lugar.getFecha())));
+        valoracion = findViewById(R.id.valoracion);
+        valoracion.setRating(lugar.getValoracion());
+        valoracion.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
+                lugar.setValoracion(valor); }
+                });
+    }
+
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.vista_lugar,menu);
@@ -87,8 +97,10 @@ public class VistaLugarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.accion_compartir:
+                usoLugar.compartir(lugar);
                 return true;
             case R.id.accion_llegar:
+                usoLugar.verMapa(lugar);
                 return true;
             case R.id.accion_editar:
                 usoLugar.editar(pos,RESULTADO_EDITAR);
@@ -108,5 +120,7 @@ public class VistaLugarActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }
 

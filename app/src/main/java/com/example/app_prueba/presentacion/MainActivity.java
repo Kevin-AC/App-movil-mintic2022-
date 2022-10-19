@@ -3,6 +3,8 @@ package com.example.app_prueba.presentacion;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,25 +28,36 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnSalir;
+
     private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private CasoUsoActividad usoActividades;
-    TextView mensaje;
+    static final int RESULTADO_PREFERENCIAS = 0;
+
+    private RecyclerView recyclerView;
+    public AdaptadorLugares adaptador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnSalir=findViewById(R.id.button04);
-        btnSalir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        adaptador = ((Aplicacion) getApplication()).adaptador;
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adaptador);
+
         lugares = ((Aplicacion)getApplication()).lugares;
         usoLugar = new CasosUsoLugar(this,lugares);
         usoActividades = new CasoUsoActividad(this);
+
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int posicion = recyclerView.getChildAdapterPosition(v);
+                usoLugar.mostrar(posicion);
+            }
+        });
 
         //barra de acciones
         Toolbar toolbar = findViewById(R.id.toolbar_Main);
@@ -66,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<lugares.dimension();i++){
             Log.d("TAG main","listado de lugares"+lugares.elemento(i).toString());
         }
+
     }
 
     @Override
@@ -77,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id==R.id.ajustes){
-            Log.d("Tag en Main","Click en la opcion ajustes");
+        if (id == R.id.ajustes){
+            usoActividades.lanzarPreferencias(RESULTADO_PREFERENCIAS);
             return true;
         }
         if (id == R.id.acercaDe){
@@ -97,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.menu_mapa){
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
     public void lanzarVistaLugar(View view){//crea alerta de dialogo con edit text
