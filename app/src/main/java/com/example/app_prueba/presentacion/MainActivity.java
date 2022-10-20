@@ -8,18 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasoUsoActividad;
+import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
 import com.example.app_prueba.datos.LugaresLista;
 import com.example.app_prueba.datos.RepositorioLugares;
@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     public AdaptadorLugares adaptador;
 
+    private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
+    private CasosUsoLocalizacion usoLocalizacion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         lugares = ((Aplicacion)getApplication()).lugares;
         usoLugar = new CasosUsoLugar(this,lugares);
         usoActividades = new CasoUsoActividad(this);
+        usoLocalizacion = new CasosUsoLocalizacion(this,SOLICITUD_PERMISO_LOCALIZACION);
 
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +78,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        /*
         RepositorioLugares lugares = new LugaresLista();
         for(int i=0;i<lugares.dimension();i++){
             Log.d("TAG main","listado de lugares"+lugares.elemento(i).toString());
         }
+        */
+
 
     }
 
@@ -137,4 +143,29 @@ public class MainActivity extends AppCompatActivity {
         Intent abrir = new Intent(this, AcercaDeActivity.class);
         startActivity(abrir);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
+    { super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == SOLICITUD_PERMISO_LOCALIZACION
+                && grantResults.length==1
+                && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
+                usoLocalizacion.permisoConcedido();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("tag MA", "onresume main ");
+        usoLocalizacion.activar();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("tag MA", "onpause main ");
+        usoLocalizacion.desactivar();
+    }
+
+
 }

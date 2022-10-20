@@ -1,11 +1,13 @@
 package com.example.app_prueba.presentacion;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,7 @@ public class EdicionLugarActivity extends AppCompatActivity {
     private EditText telefono;
     private EditText url;
     private EditText comentario;
+    private Toast msnToast;
 
 
     @Override
@@ -65,6 +68,7 @@ public class EdicionLugarActivity extends AppCompatActivity {
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipo.setAdapter(adaptador);
         tipo.setSelection(lugar.getTipo().ordinal());
+
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,10 +86,16 @@ public class EdicionLugarActivity extends AppCompatActivity {
                 lugar.setTelefono(Integer.parseInt(telefono.getText().toString()));
                 lugar.setUrl(url.getText().toString());
                 lugar.setComentario(comentario.getText().toString());
+                msnToast = Toast.makeText(getApplicationContext(),"Cambios guardados exitosamente",Toast.LENGTH_LONG);
+                        msnToast.setGravity(Gravity.CENTER,0,0);//mostrar toast en el centro de la pantalla es opcional
+                msnToast.show();
                 usoLugar.guardar(pos, lugar);
                 finish();
                 return true;
             case R.id.accion_cancelar:
+                msnToast = Toast.makeText(getApplicationContext(),"Canceló la edición no hay cambios",Toast.LENGTH_LONG);
+                        msnToast.setGravity(Gravity.CENTER,0,0);//mostrar toast en el centro de la pantalla es opcional
+                msnToast.show();
                 finish();
                 return true;
             default:
