@@ -32,7 +32,6 @@ public class EdicionLugarActivity extends AppCompatActivity {
     private EditText comentario;
     private Toast msnToast;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +67,6 @@ public class EdicionLugarActivity extends AppCompatActivity {
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipo.setAdapter(adaptador);
         tipo.setSelection(lugar.getTipo().ordinal());
-
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,15 +84,14 @@ public class EdicionLugarActivity extends AppCompatActivity {
                 lugar.setTelefono(Integer.parseInt(telefono.getText().toString()));
                 lugar.setUrl(url.getText().toString());
                 lugar.setComentario(comentario.getText().toString());
-                msnToast = Toast.makeText(getApplicationContext(),"Cambios guardados exitosamente",Toast.LENGTH_LONG);
-                        msnToast.setGravity(Gravity.CENTER,0,0);//mostrar toast en el centro de la pantalla es opcional
+                msnToast = Toast.makeText(getApplicationContext(),"Cambios fueron guardados correctamente",Toast.LENGTH_LONG);
+                msnToast.setGravity(Gravity.CENTER,0,0);
                 msnToast.show();
                 usoLugar.guardar(pos, lugar);
                 finish();
                 return true;
             case R.id.accion_cancelar:
-                msnToast = Toast.makeText(getApplicationContext(),"Canceló la edición no hay cambios",Toast.LENGTH_LONG);
-                        msnToast.setGravity(Gravity.CENTER,0,0);//mostrar toast en el centro de la pantalla es opcional
+                msnToast = Toast.makeText(this,"Canceló la edición no hay cambios",Toast.LENGTH_LONG);
                 msnToast.show();
                 finish();
                 return true;

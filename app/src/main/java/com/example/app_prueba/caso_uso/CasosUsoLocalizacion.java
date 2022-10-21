@@ -21,7 +21,8 @@ import com.example.app_prueba.R;
 import com.example.app_prueba.modelo.GeoPunto;
 import com.example.app_prueba.presentacion.AdaptadorLugares;
 
-public class CasosUsoLocalizacion implements LocationListener{
+
+public class CasosUsoLocalizacion implements LocationListener {
     private static final String TAG = "Info";
     private Activity actividad;
     private int codigoPermiso;
@@ -29,15 +30,16 @@ public class CasosUsoLocalizacion implements LocationListener{
     private Location mejorLoc;
     private GeoPunto posicionActual;
     private AdaptadorLugares adaptador;
-
+    private static final long DOS_MINUTOS = 2 * 60 * 1000;
     public CasosUsoLocalizacion(Activity actividad, int codigoPermiso) {
         this.actividad = actividad;
         this.codigoPermiso = codigoPermiso;
         manejadorLoc = (LocationManager) actividad.getSystemService(LOCATION_SERVICE);
-        posicionActual = ((Aplicacion) actividad.getApplication()).posicionActual;
-        adaptador = ((Aplicacion) actividad.getApplication()).adaptador;
-        ultimaLocalizazion();
+        posicionActual = ((Aplicacion)actividad.getApplication()).posicionActual;
+        adaptador= ((Aplicacion)actividad.getApplication()).adaptador;
+        ultimaLocalizacion();
     }
+
     public void activar() {
         if (hayPermisoLocalizacion()) activarProveedores();
     }
@@ -45,70 +47,65 @@ public class CasosUsoLocalizacion implements LocationListener{
         if (hayPermisoLocalizacion()) manejadorLoc.removeUpdates(this);
     }
 
-
-
-    public boolean hayPermisoLocalizacion() {
-        return (ActivityCompat.checkSelfPermission(actividad,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED);
+    public boolean hayPermisoLocalizacion(){
+        return (ActivityCompat.checkSelfPermission(actividad, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED);
     }
 
     @SuppressLint("MissingPermission")
-    void ultimaLocalizazion(){
-        if (hayPermisoLocalizacion()) {
+    public void ultimaLocalizacion(){
+        if (hayPermisoLocalizacion()){
             if (manejadorLoc.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 actualizaMejorLocaliz(manejadorLoc.getLastKnownLocation(LocationManager.GPS_PROVIDER));
             }
-            if (manejadorLoc.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {actualizaMejorLocaliz(manejadorLoc.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            if (manejadorLoc.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+                actualizaMejorLocaliz(manejadorLoc.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
             }
         } else {
-            solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Sin el permiso localización no puedo mostrar la distancia a los lugares.", codigoPermiso, actividad);
+            solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION,
+                    "Sin el permiso de localización no puede conocer la distancia de los sitios", codigoPermiso, actividad);
         }
     }
 
-    public static void solicitarPermiso(final String permiso, String justificacion, final int requestCode, final Activity actividad)
-    {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(actividad, permiso)){
+    public static void solicitarPermiso(final String permiso, String justificacion, final int requestCode, final Activity actividad){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(actividad, permiso)) {
             new AlertDialog.Builder(actividad)
-                    .setTitle("Solicitud de permiso en la app")
+                    .setTitle("Solicitud de permiso de la app")
                     .setMessage(justificacion)
                     .setIcon(R.mipmap.icono_app)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            ActivityCompat.requestPermissions(actividad,new String[]{permiso}, requestCode);
-                            }
-                            })
+                    .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(actividad, new String[] {permiso}, requestCode);
+                        }
+                    })
                     .show();
         } else {
-            ActivityCompat.requestPermissions(actividad, new String[]{permiso}, requestCode);}
+            ActivityCompat.requestPermissions(actividad, new String[]{permiso}, requestCode);
+        }
     }
-    public void permisoConcedido() {
-        ultimaLocalizazion();
+
+    public void permisoConcedido(){
+        ultimaLocalizacion();
         activarProveedores();
         adaptador.notifyDataSetChanged();
     }
 
     @SuppressLint("MissingPermission")
-    private void activarProveedores() {
-        if (hayPermisoLocalizacion())
-        {
-        if (manejadorLoc.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        {
-            manejadorLoc.requestLocationUpdates(LocationManager.GPS_PROVIDER,20 * 1000, 5, (LocationListener) this);
+    private void activarProveedores(){
+        if(hayPermisoLocalizacion()){
+            if (manejadorLoc.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                manejadorLoc.requestLocationUpdates(LocationManager.GPS_PROVIDER,20*1000,5, (LocationListener) this);
+            }
+            if(manejadorLoc.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+                manejadorLoc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10*1000,10, (LocationListener) this);
+            }
+        } else {
+            solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION,"Sin el permiso no podrá visualizar la distancia a la que se encuentra del sitio",codigoPermiso,actividad);
         }
-        if (manejadorLoc.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
-        {manejadorLoc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10 * 1000, 10, (LocationListener) this);
-        }
-    } else {
-        solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Sin el permiso localización no puedo mostrar la distancia a los lugares de la app.", codigoPermiso, actividad);
     }
-    }
-    private static final long DOS_MINUTOS = 2 * 60 * 1000;
     private void actualizaMejorLocaliz(Location localiz) {
-        if (localiz != null && (mejorLoc == null
-                || localiz.getAccuracy() < 2*mejorLoc.getAccuracy()
-                || localiz.getTime() - mejorLoc.getTime() > DOS_MINUTOS)) {
-            Log.d(TAG, "Nueva mejor localización");
+        if (localiz != null && (mejorLoc == null || localiz.getAccuracy() < 2*mejorLoc.getAccuracy() || localiz.getTime() - mejorLoc.getTime() > DOS_MINUTOS)) {
+            Log.d(TAG, "Nueva mejor localización "+localiz.getTime());
             mejorLoc = localiz;
             posicionActual.setLatitud(localiz.getLatitude());
             posicionActual.setLongitud(localiz.getLongitude());
@@ -121,27 +118,22 @@ public class CasosUsoLocalizacion implements LocationListener{
         Log.d(TAG, "Nueva localización: "+location);
         actualizaMejorLocaliz(location);
         adaptador.notifyDataSetChanged();
-
     }
-
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d(TAG, "Cambia estado: "+ provider);
         activarProveedores();
     }
-
-    @Override
-    public void onProviderEnabled(String provider) {
+    @Override public void onProviderEnabled(String provider) {
         Log.d(TAG, "Se habilita: "+provider);
         activarProveedores();
     }
-    @Override
-    public void onProviderDisabled(String provider) {
+    @Override public void onProviderDisabled(String provider) {
         Log.d(TAG, "Se deshabilita: "+provider);
         activarProveedores();
     }
 
 
 
-
 }
+

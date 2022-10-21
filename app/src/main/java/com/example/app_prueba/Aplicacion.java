@@ -11,7 +11,6 @@ public class Aplicacion extends Application {
     public RepositorioLugares lugares = new LugaresLista();
     public AdaptadorLugares adaptador = new AdaptadorLugares(lugares);
     public GeoPunto posicionActual = new GeoPunto(0.0, 0.0);
-
     @Override
     public void onCreate() {
         super.onCreate();

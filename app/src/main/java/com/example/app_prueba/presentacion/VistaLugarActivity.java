@@ -31,14 +31,11 @@ public class VistaLugarActivity extends AppCompatActivity {
     private Lugar lugar;
     final static int RESULTADO_EDITAR = 1;
     private TextView nombre, tipo, direccion, telefono, url, comentario, fecha, hora;
-    private ImageView logo_tipo, foto, galeria, camara;
+    private ImageView logo_tipo, foto, galeria, camara,eliminar;
     private RatingBar valoracion;
-
     final static int RESULTADO_GALERIA = 2;
     final static int RESULTADO_FOTO = 3;
     private Uri uriUltimaFoto;
-    private ImageView eliminar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,6 @@ public class VistaLugarActivity extends AppCompatActivity {
         lugares = ((Aplicacion) getApplication()).lugares;
         usoLugar = new CasosUsoLugar(this, lugares);
         lugar = lugares.elemento(pos);
-
         foto = findViewById(R.id.foto);
         galeria = findViewById(R.id.galeria);
         camara = findViewById(R.id.camara);
@@ -82,36 +78,6 @@ public class VistaLugarActivity extends AppCompatActivity {
         });
     }
 
-    public void actualizaVistas() {
-        nombre = findViewById(R.id.nombre);
-        nombre.setText(lugar.getNombre());
-        logo_tipo = findViewById(R.id.logo_tipo);
-        logo_tipo.setImageResource(lugar.getTipo().getRecurso());
-        tipo = findViewById(R.id.tipo);
-        tipo.setText(lugar.getTipo().getTexto());
-        direccion = findViewById(R.id.direccion);
-        direccion.setText(lugar.getDireccion());
-        telefono = findViewById(R.id.telefono);
-        telefono.setText(Integer.toString(lugar.getTelefono()));
-        url = findViewById(R.id.url);
-        url.setText(lugar.getUrl());
-        comentario = findViewById(R.id.comentario);
-        comentario.setText(lugar.getComentario());
-        fecha = findViewById(R.id.fecha);
-        fecha.setText(DateFormat.getDateInstance().format(new Date(lugar.getFecha())));
-        hora = findViewById(R.id.hora);
-        hora.setText(DateFormat.getTimeInstance().format(new Date(lugar.getFecha())));
-        valoracion = findViewById(R.id.valoracion);
-        valoracion.setRating(lugar.getValoracion());
-        valoracion.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
-                lugar.setValoracion(valor);
-            }
-        });
-        usoLugar.visualizarFoto(lugar, foto);
-    }
-
     public void abrirGaleria() {
         galeria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,11 +96,50 @@ public class VistaLugarActivity extends AppCompatActivity {
         });
     }
 
-    public void eliminarFoto(){
+    public void eliminarFoto() {
         eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {Toast.makeText(getApplicationContext(),"Foto eliminada",Toast.LENGTH_LONG).show();
-                usoLugar.ponerFoto(pos,"",foto);
+            public void onClick(View v) {
+                usoLugar.eliminar_Foto(pos, foto, v);
+            }
+        });
+    }
+
+
+    public void actualizaVistas() {
+        nombre = findViewById(R.id.nombre);
+        nombre.setText(lugar.getNombre());
+
+        logo_tipo = findViewById(R.id.logo_tipo);
+        logo_tipo.setImageResource(lugar.getTipo().getRecurso());
+
+        tipo = findViewById(R.id.tipo);
+        tipo.setText(lugar.getTipo().getTexto());
+
+        direccion = findViewById(R.id.direccion);
+        direccion.setText(lugar.getDireccion());
+
+        telefono = findViewById(R.id.telefono);
+        telefono.setText(Integer.toString(lugar.getTelefono()));
+
+        url = findViewById(R.id.url);
+        url.setText(lugar.getUrl());
+
+        comentario = findViewById(R.id.comentario);
+        comentario.setText(lugar.getComentario());
+
+        fecha = findViewById(R.id.fecha);
+        fecha.setText(DateFormat.getDateInstance().format(new Date(lugar.getFecha())));
+
+        hora = findViewById(R.id.hora);
+        hora.setText(DateFormat.getTimeInstance().format(new Date(lugar.getFecha())));
+
+        valoracion = findViewById(R.id.valoracion);
+        valoracion.setRating(lugar.getValoracion());
+        valoracion.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
+                lugar.setValoracion(valor);
             }
         });
     }
@@ -175,23 +180,19 @@ public class VistaLugarActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 usoLugar.ponerFoto(pos, data.getDataString(), foto);
             } else {
-                Toast.makeText(this, "Foto no cargada", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Imagen no cargada correctamente", Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == RESULTADO_FOTO) {
             if (resultCode == Activity.RESULT_OK && uriUltimaFoto != null) {
                 lugar.setFoto(uriUltimaFoto.toString());
                 usoLugar.ponerFoto(pos, lugar.getFoto(), foto);
             } else {
-                Toast.makeText(this, "Error en captura",
+                Toast.makeText(this, "Error al tomar la foto",
                         Toast.LENGTH_LONG).show();
-                super.onActivityResult(requestCode, resultCode, data);
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-
-
-
-
 }
+

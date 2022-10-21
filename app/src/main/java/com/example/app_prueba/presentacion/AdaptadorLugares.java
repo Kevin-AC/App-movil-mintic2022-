@@ -54,19 +54,21 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
             foto.setScaleType(ImageView.ScaleType.FIT_END);
             valoracion.setRating(lugar.getValoracion());
 
-            GeoPunto pos=((Aplicacion) itemView.getContext().getApplicationContext()).posicionActual;
-            if (pos.equals(GeoPunto.SIN_POSICION) ||
-                    lugar.getPosicion().equals(GeoPunto.SIN_POSICION))
-            { distancia.setText("... Km");
+            GeoPunto pos = ((Aplicacion)itemView.getContext().getApplicationContext()).posicionActual;
+            if(pos.equals(GeoPunto.SIN_POSICION) || lugar.getPosicion().equals(GeoPunto.SIN_POSICION)){
+                distancia.setText("... Km");
             } else {
-                int d=(int) pos.distancia(lugar.getPosicion());
-                if (d < 2000) {
-                    distancia.setText(d + " m");
-                }else{ distancia.setText(d / 1000 + " Km");
+                int d = (int) pos.distancia(lugar.getPosicion());
+                if (d<2000){
+                    distancia.setText(d+" m");
+                } else {
+                    distancia.setText(d/1000 + " Km");
                 }
             }
         }
     }
+
+
     //set de onclick
     public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
@@ -74,14 +76,10 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
     //estos métodos son propios del ViewHolder y deben ser importados
 // Creamos el ViewHolder con la vista de un elemento sin personalizar
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-// Inflamos la vista desde el xml
-        View laVIsta_un_elemento =
-                LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.elemento_lista, parent, false);
-        laVIsta_un_elemento.setOnClickListener(onClickListener);
-        return new ViewHolder(laVIsta_un_elemento);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.elemento_lista,parent,false);
+        vista.setOnClickListener(onClickListener);
+        return new ViewHolder(vista);
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {

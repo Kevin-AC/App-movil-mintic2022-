@@ -7,9 +7,9 @@ public class Lugar {
     private GeoPunto posicion;
     private String foto;
     private int telefono;
-    private String url;//sobra en el proyecto
+    private String url;
     private String comentario;
-    private long fecha;//cambiar por horao borrar
+    private long fecha;
     private float valoracion;
     private TipoLugar tipo;
 
@@ -22,11 +22,10 @@ public class Lugar {
                   String url,String comentario,
                   float valoracion) {
 
-        this.fecha = System.currentTimeMillis();//borrar
+        this.fecha = System.currentTimeMillis();
         posicion = new GeoPunto(longitud,latitud);
         this.nombre = nombre;
         this.direccion = direccion;
-        this.foto = foto;
         this.telefono = telefono;
         this.url = url;
         this.comentario = comentario;

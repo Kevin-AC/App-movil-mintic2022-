@@ -19,6 +19,7 @@ import android.widget.EditText;
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasoUsoActividad;
+//import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
 import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
 import com.example.app_prueba.datos.LugaresLista;
@@ -33,10 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private CasosUsoLugar usoLugar;
     private CasoUsoActividad usoActividades;
     static final int RESULTADO_PREFERENCIAS = 0;
-
     private RecyclerView recyclerView;
     public AdaptadorLugares adaptador;
-
     private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
     private CasosUsoLocalizacion usoLocalizacion;
 
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         adaptador = ((Aplicacion) getApplication()).adaptador;
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -138,18 +138,17 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-
+  /*
     public void lanzarAcercaDe(View view){
         Intent abrir = new Intent(this, AcercaDeActivity.class);
         startActivity(abrir);
     }
-
+*/
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
     { super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == SOLICITUD_PERMISO_LOCALIZACION
-                && grantResults.length==1
-                && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
+                && grantResults.length==1 && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
                 usoLocalizacion.permisoConcedido();
         }
     }
@@ -158,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d("tag MA", "onresume main ");
-        usoLocalizacion.activar();
+       // usoLocalizacion.activar();
     }
     @Override
     protected void onPause() {
         super.onPause();
         Log.d("tag MA", "onpause main ");
-        usoLocalizacion.desactivar();
+       // usoLocalizacion.desactivar();
     }
 
 

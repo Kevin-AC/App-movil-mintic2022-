@@ -1,5 +1,7 @@
 package com.example.app_prueba.modelo;
 
+import java.util.Objects;
+
 public class GeoPunto {
     private double longitud, latitud;
     static public GeoPunto SIN_POSICION = new GeoPunto(0.0, 0.0);
@@ -47,11 +49,17 @@ public class GeoPunto {
         this.latitud = latitud;
     }
 
-    public static GeoPunto getSinPosicion() {
-        return SIN_POSICION;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GeoPunto geoPunto = (GeoPunto) o;
+        return Double.compare(geoPunto.longitud, longitud) == 0 &&
+                Double.compare(geoPunto.latitud, latitud) == 0;
     }
 
-    public static void setSinPosicion(GeoPunto sinPosicion) {
-        SIN_POSICION = sinPosicion;
+    @Override
+    public int hashCode() {
+        return Objects.hash(longitud, latitud);
     }
 }

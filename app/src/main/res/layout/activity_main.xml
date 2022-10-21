@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".presentacion.MainActivity">
-    <!--
-    <TextView
-        android:id="@+id/txtMensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hola"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_Main"
         android:layout_width="match_parent"
@@ -50,7 +40,6 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|end"
         android:contentDescription="@string/todo"
         app:layout_anchor="@id/app_bar_Main"
         app:layout_anchorGravity="bottom|end"
