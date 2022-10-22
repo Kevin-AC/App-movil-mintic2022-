@@ -2,6 +2,7 @@ package com.example.app_prueba.presentacion;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -36,6 +37,8 @@ public class VistaLugarActivity extends AppCompatActivity {
     final static int RESULTADO_GALERIA = 2;
     final static int RESULTADO_FOTO = 3;
     private Uri uriUltimaFoto;
+    //PERMISO GALERIA READ_EXTERNAL_STORAGE
+    private static final int SOLICITUD_PERMISO_LECTURA = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,12 +190,23 @@ public class VistaLugarActivity extends AppCompatActivity {
                 lugar.setFoto(uriUltimaFoto.toString());
                 usoLugar.ponerFoto(pos, lugar.getFoto(), foto);
             } else {
-                Toast.makeText(this, "Error al tomar la foto",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error al tomar la foto", Toast.LENGTH_LONG).show();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == SOLICITUD_PERMISO_LECTURA){
+            if (grantResults.length== 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                usoLugar.ponerFoto(pos, lugar.getFoto(), foto);
+            } else {
+                usoLugar.ponerFoto(pos, "", foto);
+            }
+        }
+    }
+
 
 }
 
