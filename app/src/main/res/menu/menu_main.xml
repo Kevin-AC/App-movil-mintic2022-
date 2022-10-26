@@ -33,4 +33,5 @@
         android:icon="@android:drawable/ic_menu_myplaces"
         android:orderInCategory="100"
         app:showAsAction="always"/>
+
 </menu>

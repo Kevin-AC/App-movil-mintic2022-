@@ -18,8 +18,7 @@ public class CasoUsoActividad {
     }
 
     public void lanzarPreferencias(int codidoSolicitud) {
-        actividad.startActivityForResult(new Intent(actividad,
-                PreferenciasActivity.class), codidoSolicitud);
+        actividad.startActivityForResult(new Intent(actividad,PreferenciasActivity.class), codidoSolicitud);
     }
     public void lanzarMapa() {
         actividad.startActivity(new Intent(actividad, MapaActivity.class));

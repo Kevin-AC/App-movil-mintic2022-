@@ -19,8 +19,7 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
     protected View.OnClickListener onClickListener;
     protected RepositorioLugares lugares; // Lista de lugares a mostrar
     //el constructor de la clase
-    public AdaptadorLugares(RepositorioLugares lugares) {
-        this.lugares = lugares;}
+    public AdaptadorLugares(RepositorioLugares lugares) {this.lugares = lugares;}
     //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView nombre, direccion,distancia;
@@ -49,7 +48,8 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
                 case EDUCACION: id = R.drawable.educacion; break;
                 case DEPORTE: id = R.drawable.deporte; break;
                 case BANCO: id = R.drawable.banco; break;
-                case GASOLINERA: id = R.drawable.gasolinera; break; }
+                case GASOLINERA: id = R.drawable.gasolinera; break;
+            }
             foto.setImageResource(id);
             foto.setScaleType(ImageView.ScaleType.FIT_END);
             valoracion.setRating(lugar.getValoracion());

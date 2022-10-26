@@ -15,22 +15,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
+import com.example.app_prueba.datos.LugaresBD;
 import com.example.app_prueba.datos.RepositorioLugares;
 import com.example.app_prueba.modelo.Lugar;
 import com.example.app_prueba.modelo.TipoLugar;
 
 public class EdicionLugarActivity extends AppCompatActivity {
 
-    private RepositorioLugares lugares;
+    //private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private int pos;
-    private Lugar lugar;private EditText nombre;
+    private Lugar lugar;
+    private EditText nombre;
     private Spinner tipo;
     private EditText direccion;
     private EditText telefono;
     private EditText url;
     private EditText comentario;
     private Toast msnToast;
+    //base de datos sqlite
+    private LugaresBD lugares;
+    private AdaptadorLugaresBD adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +45,10 @@ public class EdicionLugarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("pos", 0);
         lugares = ((Aplicacion) getApplication()).lugares;
-        usoLugar = new CasosUsoLugar(this, lugares);
-        lugar = lugares.elemento(pos);
+        usoLugar = new CasosUsoLugar(this, lugares,adaptador);
+        //lugar = lugares.elemento(pos);
+        adaptador = ((Aplicacion) getApplication()).adaptador;
+        lugar = adaptador.lugarPosicion(pos);
         actualizaVistas();
     }
 

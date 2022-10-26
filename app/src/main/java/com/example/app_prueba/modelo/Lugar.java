@@ -22,7 +22,7 @@ public class Lugar {
                   String url,String comentario,
                   float valoracion) {
 
-        this.fecha = System.currentTimeMillis();
+        fecha = System.currentTimeMillis();
         posicion = new GeoPunto(longitud,latitud);
         this.nombre = nombre;
         this.direccion = direccion;

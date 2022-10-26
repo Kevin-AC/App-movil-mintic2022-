@@ -19,9 +19,10 @@ import android.widget.EditText;
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasoUsoActividad;
-//import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
 import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
+
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
+import com.example.app_prueba.datos.LugaresBD;
 import com.example.app_prueba.datos.LugaresLista;
 import com.example.app_prueba.datos.RepositorioLugares;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -30,35 +31,39 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private CasoUsoActividad usoActividades;
     static final int RESULTADO_PREFERENCIAS = 0;
     private RecyclerView recyclerView;
-    public AdaptadorLugares adaptador;
     private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
     private CasosUsoLocalizacion usoLocalizacion;
+    //base de datos sqlite
+    private AdaptadorLugaresBD adaptador;
+    private LugaresBD lugares;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("tag","on create main");//esto me falto
 
+        lugares = ((Aplicacion)getApplication()).lugares;
         adaptador = ((Aplicacion) getApplication()).adaptador;
+
+        usoLugar = new CasosUsoLugar(this,lugares,adaptador);
+        usoActividades = new CasoUsoActividad(this);
+        usoLocalizacion = new CasosUsoLocalizacion(this,SOLICITUD_PERMISO_LOCALIZACION);
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adaptador);
 
-        lugares = ((Aplicacion)getApplication()).lugares;
-        usoLugar = new CasosUsoLugar(this,lugares);
-        usoActividades = new CasoUsoActividad(this);
-        usoLocalizacion = new CasosUsoLocalizacion(this,SOLICITUD_PERMISO_LOCALIZACION);
-
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int posicion = recyclerView.getChildAdapterPosition(v);
+                int posicion = (Integer) v.getTag();
+                //recyclerView.getChildAdapterPosition(v);
                 usoLugar.mostrar(posicion);
             }
         });
@@ -77,15 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, R.string.mensaje_fab, Snackbar.LENGTH_LONG).setAction("Accion",null).show();
             }
         });
-
-        /*
-        RepositorioLugares lugares = new LugaresLista();
-        for(int i=0;i<lugares.dimension();i++){
-            Log.d("TAG main","listado de lugares"+lugares.elemento(i).toString());
-        }
-        */
-
-
     }
 
     @Override
@@ -102,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.acercaDe){
-            //lanzarAcercaDe(null);
             usoActividades.lanzarAcercadDe();
             return true;
         }
@@ -128,8 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle(R.string.elijaId)
                 .setMessage("indica id de lugar:")
                 .setView(entrada)
-                .setPositiveButton("Ok", new
-                        DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int
                                     whichButton) {
                                 int id = Integer.parseInt
@@ -139,12 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-  /*
-    public void lanzarAcercaDe(View view){
-        Intent abrir = new Intent(this, AcercaDeActivity.class);
-        startActivity(abrir);
-    }
-*/
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
     { super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -158,14 +146,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d("tag MA", "onresume main ");
-       // usoLocalizacion.activar();
+       usoLocalizacion.activar();
     }
     @Override
     protected void onPause() {
         super.onPause();
         Log.d("tag MA", "onpause main ");
-       // usoLocalizacion.desactivar();
+       usoLocalizacion.desactivar();
+    }
+    //////////////////////////////////////////
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("tag","on start main");
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("tag","on stop main");
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("tag","on destroy main");
+    }
+/////////////////////////////////////////////////////
 
 }

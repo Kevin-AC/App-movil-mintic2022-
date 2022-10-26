@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
+import com.example.app_prueba.datos.LugaresBD;
 import com.example.app_prueba.datos.RepositorioLugares;
 import com.example.app_prueba.modelo.Lugar;
 
@@ -26,7 +27,7 @@ import java.util.Date;
 
 public class VistaLugarActivity extends AppCompatActivity {
 
-    private RepositorioLugares lugares;
+    //private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private int pos;
     private Lugar lugar;
@@ -39,6 +40,9 @@ public class VistaLugarActivity extends AppCompatActivity {
     private Uri uriUltimaFoto;
     //PERMISO GALERIA READ_EXTERNAL_STORAGE
     private static final int SOLICITUD_PERMISO_LECTURA = 0;
+    //base de datos sqlite
+    private LugaresBD lugares;
+    private AdaptadorLugaresBD adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +52,10 @@ public class VistaLugarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("pos", 0);
         lugares = ((Aplicacion) getApplication()).lugares;
-        usoLugar = new CasosUsoLugar(this, lugares);
-        lugar = lugares.elemento(pos);
+        usoLugar = new CasosUsoLugar(this, lugares,adaptador);
+        //lugar = lugares.elemento(pos);
+        adaptador= ((Aplicacion)getApplication()).adaptador;
+        lugar = adaptador.lugarPosicion(pos);
         foto = findViewById(R.id.foto);
         galeria = findViewById(R.id.galeria);
         camara = findViewById(R.id.camara);
@@ -167,7 +173,8 @@ public class VistaLugarActivity extends AppCompatActivity {
                 usoLugar.editar(pos, RESULTADO_EDITAR);
                 return true;
             case R.id.accion_borrar:
-                usoLugar.borrar(pos);
+                int id= adaptador.idPosicion(pos);
+                usoLugar.borrar(id);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

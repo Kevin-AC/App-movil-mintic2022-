@@ -40,13 +40,6 @@ public class CasosUsoLocalizacion implements LocationListener {
         ultimaLocalizacion();
     }
 
-    public void activar() {
-        if (hayPermisoLocalizacion()) activarProveedores();
-    }
-    public void desactivar() {
-        if (hayPermisoLocalizacion()) manejadorLoc.removeUpdates(this);
-    }
-
     public boolean hayPermisoLocalizacion(){
         return (ActivityCompat.checkSelfPermission(actividad, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED);
@@ -132,6 +125,12 @@ public class CasosUsoLocalizacion implements LocationListener {
     @Override public void onProviderDisabled(String provider) {
         Log.d(TAG, "Se deshabilita: "+provider);
         activarProveedores();
+    }
+    public void activar() {
+        if (hayPermisoLocalizacion()) activarProveedores();
+    }
+    public void desactivar() {
+        if (hayPermisoLocalizacion()) manejadorLoc.removeUpdates(this);
     }
 
 
