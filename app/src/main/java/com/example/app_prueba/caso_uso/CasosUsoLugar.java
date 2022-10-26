@@ -134,7 +134,8 @@ public class CasosUsoLugar {
             //gestion del permiso de lectura de almacenamiento
             if (ContextCompat.checkSelfPermission(actividad,
                     Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                imageView.setImageURI(Uri.parse(lugar.getFoto()));
+                    imageView.setImageURI(Uri.parse(lugar.getFoto()));
+                    imageView.setImageBitmap(reduceBitmap(actividad, lugar.getFoto(), 1024, 1024));
             } else {
                 imageView.setImageBitmap(null);
                 solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin permiso de lectura no es posible mostrar fotos de memoria externa", SOLICITUD_PERMISO_LECTURA, actividad);
@@ -176,8 +177,11 @@ public class CasosUsoLugar {
         try {
             Uri uriUltimaFoto;
             File file = File.createTempFile("img_" + (System.currentTimeMillis() / 1000), ".jpg", actividad.getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-            if(ContextCompat.checkSelfPermission(actividad, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin permiso de lectura no es posible abrir camara",SOLICITUD_PERMISO_LECTURA,actividad);
+            if(ContextCompat.checkSelfPermission(actividad,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED){
+                solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        "Sin permiso de lectura no es posible abrir camara",SOLICITUD_PERMISO_LECTURA,actividad);
                         uriUltimaFoto = Uri.parse(String.valueOf(R.mipmap.icono_app));
             }else if (Build.VERSION.SDK_INT >= 24) {
                 uriUltimaFoto = FileProvider.getUriForFile(actividad, "misiontic.app_prueba.fileProvider", file);

@@ -48,7 +48,8 @@ public class CasosUsoLocalizacion implements LocationListener {
     }
 
     public boolean hayPermisoLocalizacion(){
-        return (ActivityCompat.checkSelfPermission(actividad, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED);
+        return (ActivityCompat.checkSelfPermission(actividad, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED);
     }
 
     @SuppressLint("MissingPermission")
