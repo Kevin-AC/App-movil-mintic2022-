@@ -40,14 +40,6 @@ public class Lugar {
         tipo = TipoLugar.OTROS;
     }
 
-    public TipoLugar getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoLugar tipo) {
-        this.tipo = tipo;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -118,6 +110,14 @@ public class Lugar {
 
     public void setValoracion(float valoracion) {
         this.valoracion = valoracion;
+    }
+
+    public TipoLugar getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoLugar tipo) {
+        this.tipo = tipo;
     }
 
     @Override

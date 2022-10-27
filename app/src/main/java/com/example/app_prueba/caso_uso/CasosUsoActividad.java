@@ -7,10 +7,10 @@ import com.example.app_prueba.presentacion.AcercaDeActivity;
 import com.example.app_prueba.presentacion.MapaActivity;
 import com.example.app_prueba.presentacion.PreferenciasActivity;
 
-public class CasoUsoActividad {
+public class CasosUsoActividad {
     protected Activity actividad;
     //constructor
-    public CasoUsoActividad(Activity actividad) {
+    public CasosUsoActividad(Activity actividad) {
         this.actividad = actividad;
     }
     public void lanzarAcercadDe(){

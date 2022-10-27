@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,13 +17,11 @@ import android.widget.EditText;
 
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
-import com.example.app_prueba.caso_uso.CasoUsoActividad;
+import com.example.app_prueba.caso_uso.CasosUsoActividad;
 import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
 
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
 import com.example.app_prueba.datos.LugaresBD;
-import com.example.app_prueba.datos.LugaresLista;
-import com.example.app_prueba.datos.RepositorioLugares;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,7 +29,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
     private CasosUsoLugar usoLugar;
-    private CasoUsoActividad usoActividades;
+    private CasosUsoActividad usoActividades;
     static final int RESULTADO_PREFERENCIAS = 0;
     private RecyclerView recyclerView;
     private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
@@ -50,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         lugares = ((Aplicacion)getApplication()).lugares;
         adaptador = ((Aplicacion) getApplication()).adaptador;
 
+        usoActividades = new CasosUsoActividad(this);
         usoLugar = new CasosUsoLugar(this,lugares,adaptador);
-        usoActividades = new CasoUsoActividad(this);
         usoLocalizacion = new CasosUsoLocalizacion(this,SOLICITUD_PERMISO_LOCALIZACION);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -124,10 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("indica id de lugar:")
                 .setView(entrada)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int
-                                    whichButton) {
-                                int id = Integer.parseInt
-                                        (entrada.getText().toString());
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                int id = Integer.parseInt(entrada.getText().toString());
                                 usoLugar.mostrar(id);
                             }})
                 .setNegativeButton("Cancelar", null)
