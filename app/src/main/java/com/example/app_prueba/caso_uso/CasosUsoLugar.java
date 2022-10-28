@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.datos.LugaresBD;
 import com.example.app_prueba.datos.RepositorioLugares;
@@ -69,6 +70,8 @@ public class CasosUsoLugar {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         lugares.borrar(id);
+                        adaptador.setCursor(lugares.extraeCursor());
+                        adaptador.notifyDataSetChanged();
                         actividad.finish();
                     }})
                 .setNegativeButton("Cancelar", null)
@@ -96,6 +99,8 @@ public class CasosUsoLugar {
 
     public void guardar(int id, Lugar nuevoLugar){
         lugares.actualizar(id,nuevoLugar);
+        adaptador.setCursor(lugares.extraeCursor());
+        adaptador.notifyDataSetChanged();
     }
     // INTENCIONES
     public void compartir(Lugar lugar) {
@@ -207,6 +212,22 @@ public class CasosUsoLugar {
             return null;
         }
     }
+    public void actualizaPosLugar(int pos, Lugar lugar){
+        int id= adaptador.idPosicion(pos);
+        guardar(id,lugar);
+    }
+    public void nuevo(){
+        int id = lugares.nuevo();
+        GeoPunto posicion = ((Aplicacion)actividad.getApplicationContext()).posicionActual;
+        if (!posicion.equals(GeoPunto.SIN_POSICION)){
+            Lugar lugar = lugares.elemento(id);
+            lugar.setPosicion(posicion);
+            lugares.actualizar(id,lugar);
+        }
+        Intent nuevoLugar = new Intent(actividad,EdicionLugarActivity.class);
+        nuevoLugar.putExtra("_id",id);
+        actividad.startActivity(nuevoLugar);
 
+    }
 
 }

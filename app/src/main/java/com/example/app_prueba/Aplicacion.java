@@ -11,14 +11,15 @@ import com.example.app_prueba.presentacion.AdaptadorLugaresBD;
 
 public class Aplicacion extends Application {
     public LugaresBD lugares ; //= new LugaresLista();
+    public AdaptadorLugaresBD adaptador;
     //public AdaptadorLugares adaptador = new AdaptadorLugares(lugares);
     public GeoPunto posicionActual = new GeoPunto(0.0, 0.0);
-    public AdaptadorLugaresBD adaptador;
+
     @Override
     public void onCreate() {
         super.onCreate();
         lugares = new LugaresBD(this);
-        adaptador= new AdaptadorLugaresBD(lugares, lugares.extraeCursor());
+        adaptador = new AdaptadorLugaresBD(lugares, lugares.extraeCursor());
     }
 
     public RepositorioLugares getLugares() {

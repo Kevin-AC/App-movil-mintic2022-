@@ -33,6 +33,13 @@ public class AdaptadorLugaresBD extends AdaptadorLugares {
         else {return -1;
         }
     }
+    public int posicionId(int id){
+        int pos =0;
+        while(pos<getItemCount() &&idPosicion(pos)!=id)pos++;
+        if(pos>= getItemCount()) return -1;
+        else return pos;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int posicion) {
         //super.onBindViewHolder(holder, posicion);

@@ -23,7 +23,5 @@ public class CasosUsoActividad {
     public void lanzarMapa() {
         actividad.startActivity(new Intent(actividad, MapaActivity.class));
     }
-    public void lanzarMapa() {
-        actividad.startActivity(new Intent(actividad, MapaActivity.class));
-    }
+
 }

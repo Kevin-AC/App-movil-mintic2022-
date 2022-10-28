@@ -29,7 +29,7 @@ public class VistaLugarActivity extends AppCompatActivity {
 
     //private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
-    private int pos;
+    private int pos, _id=-1;
     private Lugar lugar;
     final static int RESULTADO_EDITAR = 1;
     private TextView nombre, tipo, direccion, telefono, url, comentario, fecha, hora;
@@ -48,15 +48,14 @@ public class VistaLugarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vista_lugar);
-
-        Bundle extras = getIntent().getExtras();
-        pos = extras.getInt("pos", 0);
         lugares = ((Aplicacion) getApplication()).lugares;
         adaptador= ((Aplicacion)getApplication()).adaptador;
         usoLugar = new CasosUsoLugar(this, lugares,adaptador);
-        //lugar = lugares.elemento(pos);
 
-
+        Bundle extras = getIntent().getExtras();
+        if (extras!=null) pos = extras.getInt("pos", 0);
+        else pos=0;
+        _id=adaptador.idPosicion(pos);
         lugar = adaptador.lugarPosicion(pos);
         foto = findViewById(R.id.foto);
         galeria = findViewById(R.id.galeria);
@@ -105,6 +104,8 @@ public class VistaLugarActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
                 lugar.setValoracion(valor);
+                usoLugar.actualizaPosLugar(pos,lugar);
+                pos = adaptador.posicionId(_id);
             }
         });
         usoLugar.visualizarFoto(lugar, foto);
@@ -188,6 +189,8 @@ public class VistaLugarActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULTADO_EDITAR) {
+            lugar = lugares.elemento(_id);
+            pos = adaptador.posicionId(_id);
             actualizaVistas();
             findViewById(R.id.scrollView1).invalidate();
         } else if (requestCode == RESULTADO_GALERIA) {

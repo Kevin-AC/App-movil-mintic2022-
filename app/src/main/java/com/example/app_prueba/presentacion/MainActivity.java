@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, R.string.mensaje_fab, Snackbar.LENGTH_LONG).setAction("Accion",null).show();
+                //Snackbar.make(view, R.string.mensaje_fab, Snackbar.LENGTH_LONG).setAction("Accion",null).show();
+                usoLugar.nuevo();
             }
         });
     }
@@ -136,6 +138,12 @@ public class MainActivity extends AppCompatActivity {
                 usoLocalizacion.permisoConcedido();
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("tag MA", "onpause main ");
+        usoLocalizacion.desactivar();
+    }
 
     @Override
     protected void onResume() {
@@ -143,13 +151,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("tag MA", "onresume main ");
        usoLocalizacion.activar();
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("tag MA", "onpause main ");
-       usoLocalizacion.desactivar();
-    }
-    //////////////////////////////////////////
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -166,6 +168,14 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d("tag","on destroy main");
     }
-/////////////////////////////////////////////////////
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==RESULTADO_PREFERENCIAS){
+            adaptador.setCursor(lugares.extraeCursor());
+            adaptador.notifyDataSetChanged();
+        }
+    }
 
 }

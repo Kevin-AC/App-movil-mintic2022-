@@ -24,7 +24,7 @@ public class EdicionLugarActivity extends AppCompatActivity {
 
     //private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
-    private int pos;
+    private int pos,_id;
     private Lugar lugar;
     private EditText nombre;
     private Spinner tipo;
@@ -41,14 +41,17 @@ public class EdicionLugarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edicion_lugar);
+        lugares = ((Aplicacion) getApplication()).lugares;
+        adaptador = ((Aplicacion) getApplication()).adaptador;
+        usoLugar = new CasosUsoLugar(this, lugares,adaptador);
 
         Bundle extras = getIntent().getExtras();
-        pos = extras.getInt("pos", 0);
-        lugares = ((Aplicacion) getApplication()).lugares;
-        usoLugar = new CasosUsoLugar(this, lugares,adaptador);
-        //lugar = lugares.elemento(pos);
-        adaptador = ((Aplicacion) getApplication()).adaptador;
-        lugar = adaptador.lugarPosicion(pos);
+        pos = extras.getInt("pos", -1);
+        _id= extras.getInt("_id",-1);
+        if (_id!=-1){setTitle("Nuevo lugar");
+            lugar = lugares.elemento(_id);
+        }
+        else lugar = adaptador.lugarPosicion(pos); // lugares.elemento(pos);
         actualizaVistas();
     }
 
@@ -94,16 +97,26 @@ public class EdicionLugarActivity extends AppCompatActivity {
                 msnToast = Toast.makeText(getApplicationContext(),"Cambios fueron guardados correctamente",Toast.LENGTH_LONG);
                 msnToast.setGravity(Gravity.CENTER,0,0);
                 msnToast.show();
-                usoLugar.guardar(pos, lugar);
+                if (_id==-1)_id = adaptador.idPosicion(pos);
+                usoLugar.guardar(_id, lugar);
                 finish();
                 return true;
             case R.id.accion_cancelar:
                 msnToast = Toast.makeText(this,"Canceló la edición no hay cambios",Toast.LENGTH_LONG);
                 msnToast.show();
+                if (_id!=-1) lugares.borrar(_id);
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //si ud hace clic en el boton de atras el registro queda con algunos pero con el fin de no dejarlo en la base de datos
+    // sobreescriba el siguiente método
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (_id!=-1) lugares.borrar(_id);
     }
 }
