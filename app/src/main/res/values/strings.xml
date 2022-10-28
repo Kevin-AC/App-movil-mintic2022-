@@ -23,6 +23,8 @@
     <string name="elijaId">Seleccione un Lugar x ID</string>
     <string name="vistaLugar">Visa Lugar</string>
     <string name="edicionLugar">Edición lugar</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve"
+        translatable="false">AIzaSyAEb60uAUPKLKsaR0x0mwQQPyKpQgMnIfk</string>
 
 
 </resources>

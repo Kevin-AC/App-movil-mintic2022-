@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.app_prueba">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
@@ -18,14 +17,12 @@
         android:roundIcon="@mipmap/icono_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.App_Prueba">
-
         <activity
             android:name=".presentacion.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App_Prueba.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -51,6 +48,7 @@
             android:label="Preferencias Mis Lugares"
             android:screenOrientation="portrait">
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="misiontic.app_prueba.fileProvider"
@@ -59,7 +57,13 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".presentacion.MapaActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="MissingClass"/>
+
     </application>
-
-
 </manifest>

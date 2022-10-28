@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFFFFF"
-    android:backgroundTint="#FFFFFF"
     android:fitsSystemWindows="true"
-    android:foreground="@drawable/maracadeagua"
     tools:context=".presentacion.MainActivity">
+    <!--
+    android:foreground="@drawable/maracadeagua"
+    -->
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_Main"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="#00000000"
-        android:backgroundTint="#00FFFFFF"
         android:theme="@style/Theme.App_Prueba.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout_Main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#00000000"
-            android:backgroundTint="#00000000"
-            android:contextClickable="false"
             android:fitsSystemWindows="true"
-            android:foreground="@drawable/curvamascurva1"
-            app:collapsedTitleTextColor="#FFFFFF"
             app:contentScrim="@color/purple_500"
             app:expandedTitleGravity="center_vertical"
             app:expandedTitleMarginStart="10dp"
-            app:expandedTitleTextColor="#FFFFFF"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="@string/app_name"
             app:toolbarId="@+id/toolbar">
@@ -40,12 +33,11 @@
                 android:id="@+id/toolbar_Main"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:backgroundTint="#00FFC107"
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/Theme.App_Prueba.PopupOverlay"
-                app:titleTextColor="#FFFFFF" />
+           />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

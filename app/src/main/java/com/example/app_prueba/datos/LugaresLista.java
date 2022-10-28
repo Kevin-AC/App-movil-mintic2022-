@@ -48,9 +48,8 @@ public class LugaresLista implements RepositorioLugares {
 
     }
     public  void agregaEjemplos (){
-        agrega(new Lugar("UIS","Calle 9#27","none",7.1377,-73.121,
-                TipoLugar.EDUCACION,6344000,"www.uis.edu.co",
-                "Una de las universidades Colombia",5));
+        agrega(new Lugar("UIS","Calle 9#27", "none",-73.121,7.1377, TipoLugar.EDUCACION,6344000, "https://www.uis.edu.co", "Una de las universidades de Colombia",
+                5));
         agrega(new Lugar("Estadio Atanasio Girardot", "Cra. 74 # 48010, Medellín, Antioquia", "none",
                 -75.59013,6.256864,TipoLugar.DEPORTE, 0, "http://comunasdemedellin.com/",
                 "Estadio de la ciudad de medellín",  4));
