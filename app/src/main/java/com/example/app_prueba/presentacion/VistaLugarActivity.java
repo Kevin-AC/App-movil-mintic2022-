@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_prueba.Aplicacion;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
+import com.example.app_prueba.datos.LugaresBD;
 import com.example.app_prueba.datos.RepositorioLugares;
 import com.example.app_prueba.modelo.Lugar;
 
@@ -26,7 +27,7 @@ import java.util.Date;
 
 public class VistaLugarActivity extends AppCompatActivity {
 
-    private RepositorioLugares lugares;
+    //private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private int pos;
     private Lugar lugar;
@@ -39,6 +40,9 @@ public class VistaLugarActivity extends AppCompatActivity {
     private Uri uriUltimaFoto;
     //PERMISO GALERIA READ_EXTERNAL_STORAGE
     private static final int SOLICITUD_PERMISO_LECTURA = 0;
+    //base de datos sqlite
+    private LugaresBD lugares;
+    private AdaptadorLugaresBD adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +52,12 @@ public class VistaLugarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("pos", 0);
         lugares = ((Aplicacion) getApplication()).lugares;
-        usoLugar = new CasosUsoLugar(this, lugares);
-        lugar = lugares.elemento(pos);
+        adaptador= ((Aplicacion)getApplication()).adaptador;
+        usoLugar = new CasosUsoLugar(this, lugares,adaptador);
+        //lugar = lugares.elemento(pos);
+
+
+        lugar = adaptador.lugarPosicion(pos);
         foto = findViewById(R.id.foto);
         galeria = findViewById(R.id.galeria);
         camara = findViewById(R.id.camara);
@@ -61,6 +69,45 @@ public class VistaLugarActivity extends AppCompatActivity {
         abrirGaleria();
         tomarFotoCamara();
         eliminarFoto();
+    }
+
+    public void actualizaVistas() {
+        nombre = findViewById(R.id.nombre);
+        nombre.setText(lugar.getNombre());
+
+        logo_tipo = findViewById(R.id.logo_tipo);
+        logo_tipo.setImageResource(lugar.getTipo().getRecurso());
+
+        tipo = findViewById(R.id.tipo);
+        tipo.setText(lugar.getTipo().getTexto());
+
+        direccion = findViewById(R.id.direccion);
+        direccion.setText(lugar.getDireccion());
+
+        telefono = findViewById(R.id.telefono);
+        telefono.setText(Integer.toString(lugar.getTelefono()));
+
+        url = findViewById(R.id.url);
+        url.setText(lugar.getUrl());
+
+        comentario = findViewById(R.id.comentario);
+        comentario.setText(lugar.getComentario());
+
+        fecha = findViewById(R.id.fecha);
+        fecha.setText(DateFormat.getDateInstance().format(new Date(lugar.getFecha())));
+
+        hora = findViewById(R.id.hora);
+        hora.setText(DateFormat.getTimeInstance().format(new Date(lugar.getFecha())));
+
+        valoracion = findViewById(R.id.valoracion);
+        valoracion.setRating(lugar.getValoracion());
+        valoracion.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
+                lugar.setValoracion(valor);
+            }
+        });
+        usoLugar.visualizarFoto(lugar, foto);
     }
 
     public void llamar() {
@@ -109,43 +156,6 @@ public class VistaLugarActivity extends AppCompatActivity {
     }
 
 
-    public void actualizaVistas() {
-        nombre = findViewById(R.id.nombre);
-        nombre.setText(lugar.getNombre());
-
-        logo_tipo = findViewById(R.id.logo_tipo);
-        logo_tipo.setImageResource(lugar.getTipo().getRecurso());
-
-        tipo = findViewById(R.id.tipo);
-        tipo.setText(lugar.getTipo().getTexto());
-
-        direccion = findViewById(R.id.direccion);
-        direccion.setText(lugar.getDireccion());
-
-        telefono = findViewById(R.id.telefono);
-        telefono.setText(Integer.toString(lugar.getTelefono()));
-
-        url = findViewById(R.id.url);
-        url.setText(lugar.getUrl());
-
-        comentario = findViewById(R.id.comentario);
-        comentario.setText(lugar.getComentario());
-
-        fecha = findViewById(R.id.fecha);
-        fecha.setText(DateFormat.getDateInstance().format(new Date(lugar.getFecha())));
-
-        hora = findViewById(R.id.hora);
-        hora.setText(DateFormat.getTimeInstance().format(new Date(lugar.getFecha())));
-
-        valoracion = findViewById(R.id.valoracion);
-        valoracion.setRating(lugar.getValoracion());
-        valoracion.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float valor, boolean fromUser) {
-                lugar.setValoracion(valor);
-            }
-        });
-    }
 
 
     @Override
@@ -167,7 +177,8 @@ public class VistaLugarActivity extends AppCompatActivity {
                 usoLugar.editar(pos, RESULTADO_EDITAR);
                 return true;
             case R.id.accion_borrar:
-                usoLugar.borrar(pos);
+                int id= adaptador.idPosicion(pos);
+                usoLugar.borrar(id);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

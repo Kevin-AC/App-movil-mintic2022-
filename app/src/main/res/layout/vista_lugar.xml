@@ -153,38 +153,37 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    <ImageView
-        android:id="@+id/foto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="fotografía"
-        android:src="@drawable/foto" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right" >
-    <ImageView
-        android:id="@+id/camara"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="logo cámara"
-        android:src="@android:drawable/ic_menu_camera" />
         <ImageView
-            android:id="@+id/galeria"
+            android:id="@+id/foto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="fotografía"
+            android:src="@drawable/foto" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right" >
+        <ImageView
+            android:id="@+id/camara"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:contentDescription="logo galería"
-            android:src="@android:drawable/ic_menu_gallery" />
-        <ImageView
-            android:id="@+id/eliminar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="Eliminar foto"
-            android:src="@android:drawable/ic_delete"/>
+            android:contentDescription="logo cámara"
+            android:src="@android:drawable/ic_menu_camera" />
+            <ImageView
+                android:id="@+id/galeria"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="logo galería"
+                android:src="@android:drawable/ic_menu_gallery" />
+            <ImageView
+                android:id="@+id/eliminar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="Eliminar foto"
+                android:src="@android:drawable/ic_delete"/>
 
+             </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
-    </FrameLayout>
-    </LinearLayout>
-
 </ScrollView>

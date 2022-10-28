@@ -24,9 +24,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.app_prueba.R;
+import com.example.app_prueba.datos.LugaresBD;
 import com.example.app_prueba.datos.RepositorioLugares;
 import com.example.app_prueba.modelo.GeoPunto;
 import com.example.app_prueba.modelo.Lugar;
+import com.example.app_prueba.presentacion.AdaptadorLugaresBD;
 import com.example.app_prueba.presentacion.EdicionLugarActivity;
 import com.example.app_prueba.presentacion.VistaLugarActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -39,13 +41,17 @@ import java.net.URL;
 
 public class CasosUsoLugar {
     private Activity actividad;
-    private RepositorioLugares lugares;
+    //private RepositorioLugares lugares;
     private static final int SOLICITUD_PERMISO_LECTURA = 0;
+    //base de datos sqlite
+    private LugaresBD lugares;
+    private AdaptadorLugaresBD adaptador;
 
     ///contructor
-    public CasosUsoLugar(Activity actividad, RepositorioLugares lugares) {
+    public CasosUsoLugar(Activity actividad, LugaresBD lugares, AdaptadorLugaresBD adaptador) {
         this.actividad = actividad;
         this.lugares = lugares;
+        this.adaptador = adaptador;
     }
 
     //opereciones o funciones de la app
@@ -107,8 +113,12 @@ public class CasosUsoLugar {
     public final void verMapa(Lugar lugar) {
         double lat = lugar.getPosicion().getLatitud();
         double lon = lugar.getPosicion().getLongitud();
-        Uri uri = lugar.getPosicion() != GeoPunto.SIN_POSICION ?Uri.parse("geo:" + lat + ',' + lon+"?z=18&q="+Uri.encode(lugar.getDireccion())) :Uri.parse("geo:0,0?q="+Uri.encode(lugar.getDireccion()));
-        Log.d("tag casos uso lugar","vermapa " +uri + " " + Uri.encode(lugar.getDireccion())+ "\n" + lugar.getPosicion() + "geopto "+ GeoPunto.SIN_POSICION);
+        Uri uri = lugar.getPosicion() != GeoPunto.SIN_POSICION
+                ?Uri.parse("geo:" + lat + ',' +
+                lon+"?z=18&q="+Uri.encode(lugar.getDireccion()))
+                :Uri.parse("geo:0,0?q="+Uri.encode(lugar.getDireccion()));
+        Log.d("tag casos uso lugar","vermapa " +uri + " " +
+                Uri.encode(lugar.getDireccion())+ "\n" + lugar.getPosicion() + "geopto "+ GeoPunto.SIN_POSICION);
                 actividad.startActivity(new Intent("android.intent.action.VIEW", uri));
     }
 
@@ -131,15 +141,17 @@ public class CasosUsoLugar {
     }
     public void visualizarFoto(Lugar lugar, ImageView imageView) {
         if (lugar.getFoto() != null && !lugar.getFoto().isEmpty()) {
-            //gestion del permiso de lectura de almacenamiento
-            if (ContextCompat.checkSelfPermission(actividad,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if(ContextCompat.checkSelfPermission(actividad,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            {
                 imageView.setImageURI(Uri.parse(lugar.getFoto()));
-            } else {
+                imageView.setImageBitmap(reduceBitmap(actividad,lugar.getFoto(), 1024,1024));
+            }else{
                 imageView.setImageBitmap(null);
-                solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin permiso de lectura no es posible mostrar fotos de memoria externa", SOLICITUD_PERMISO_LECTURA, actividad);
+                solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        "Sin permiso de lectura no es posible mostrar fotos de memoria externa",SOLICITUD_PERMISO_LECTURA,actividad);
             }
-        }else {
+        } else {
             imageView.setImageBitmap(null);
         }
     }
@@ -176,11 +188,13 @@ public class CasosUsoLugar {
         try {
             Uri uriUltimaFoto;
             File file = File.createTempFile("img_" + (System.currentTimeMillis() / 1000), ".jpg", actividad.getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-            if(ContextCompat.checkSelfPermission(actividad, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            if(ContextCompat.checkSelfPermission(actividad,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED){
                 solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin permiso de lectura no es posible abrir camara",SOLICITUD_PERMISO_LECTURA,actividad);
                         uriUltimaFoto = Uri.parse(String.valueOf(R.mipmap.icono_app));
             }else if (Build.VERSION.SDK_INT >= 24) {
-                uriUltimaFoto = FileProvider.getUriForFile(actividad, "misiontic.app_prueba.fileProvider", file);
+                uriUltimaFoto = FileProvider.getUriForFile(actividad, "misiontic.uis.app_prueba.fileProvider", file);
             } else {
                 uriUltimaFoto = Uri.fromFile(file);
             }
@@ -193,9 +207,6 @@ public class CasosUsoLugar {
             return null;
         }
     }
-
-
-
 
 
 }

@@ -64,6 +64,6 @@ public class LugaresLista implements RepositorioLugares {
         agrega(new Lugar("Loma Mesa de Ruitoque", "Loma Mesa de Ruitoque, Floridablanca, Santander",
                 "none",0,0, TipoLugar.BAR, 0, "SIN DATOS",
                 "Lugar en Floridablanca, Santander",4));
-}
+    }
 
 }

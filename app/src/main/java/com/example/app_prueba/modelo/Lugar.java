@@ -22,7 +22,7 @@ public class Lugar {
                   String url,String comentario,
                   float valoracion) {
 
-        this.fecha = System.currentTimeMillis();
+        fecha = System.currentTimeMillis();
         posicion = new GeoPunto(longitud,latitud);
         this.nombre = nombre;
         this.direccion = direccion;
@@ -38,14 +38,6 @@ public class Lugar {
         fecha = System.currentTimeMillis();
         posicion = new GeoPunto(0.0,0.0);
         tipo = TipoLugar.OTROS;
-    }
-
-    public TipoLugar getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoLugar tipo) {
-        this.tipo = tipo;
     }
 
     public String getNombre() {
@@ -118,6 +110,14 @@ public class Lugar {
 
     public void setValoracion(float valoracion) {
         this.valoracion = valoracion;
+    }
+
+    public TipoLugar getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoLugar tipo) {
+        this.tipo = tipo;
     }
 
     @Override

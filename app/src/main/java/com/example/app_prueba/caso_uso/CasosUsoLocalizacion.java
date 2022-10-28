@@ -40,15 +40,9 @@ public class CasosUsoLocalizacion implements LocationListener {
         ultimaLocalizacion();
     }
 
-    public void activar() {
-        if (hayPermisoLocalizacion()) activarProveedores();
-    }
-    public void desactivar() {
-        if (hayPermisoLocalizacion()) manejadorLoc.removeUpdates(this);
-    }
-
     public boolean hayPermisoLocalizacion(){
-        return (ActivityCompat.checkSelfPermission(actividad, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED);
+        return (ActivityCompat.checkSelfPermission(actividad,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
     }
 
     @SuppressLint("MissingPermission")
@@ -73,8 +67,7 @@ public class CasosUsoLocalizacion implements LocationListener {
                     .setMessage(justificacion)
                     .setIcon(R.mipmap.icono_app)
                     .setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int whichButton) {
                             ActivityCompat.requestPermissions(actividad, new String[] {permiso}, requestCode);
                         }
                     })
@@ -103,14 +96,7 @@ public class CasosUsoLocalizacion implements LocationListener {
             solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION,"Sin el permiso no podrá visualizar la distancia a la que se encuentra del sitio",codigoPermiso,actividad);
         }
     }
-    private void actualizaMejorLocaliz(Location localiz) {
-        if (localiz != null && (mejorLoc == null || localiz.getAccuracy() < 2*mejorLoc.getAccuracy() || localiz.getTime() - mejorLoc.getTime() > DOS_MINUTOS)) {
-            Log.d(TAG, "Nueva mejor localización "+localiz.getTime());
-            mejorLoc = localiz;
-            posicionActual.setLatitud(localiz.getLatitude());
-            posicionActual.setLongitud(localiz.getLongitude());
-        }
-    }
+
 
 
     @Override
@@ -131,6 +117,20 @@ public class CasosUsoLocalizacion implements LocationListener {
     @Override public void onProviderDisabled(String provider) {
         Log.d(TAG, "Se deshabilita: "+provider);
         activarProveedores();
+    }
+    private void actualizaMejorLocaliz(Location localiz) {
+        if (localiz != null && (mejorLoc == null || localiz.getAccuracy() < 2*mejorLoc.getAccuracy() || localiz.getTime() - mejorLoc.getTime() > DOS_MINUTOS)) {
+            Log.d(TAG, "Nueva mejor localización "+localiz.getTime());
+            mejorLoc = localiz;
+            posicionActual.setLatitud(localiz.getLatitude());
+            posicionActual.setLongitud(localiz.getLongitude());
+        }
+    }
+    public void activar() {
+        if (hayPermisoLocalizacion()) activarProveedores();
+    }
+    public void desactivar() {
+        if (hayPermisoLocalizacion()) manejadorLoc.removeUpdates(this);
     }
 
 
