@@ -44,6 +44,7 @@ public class VistaLugarActivity extends AppCompatActivity {
     private LugaresBD lugares;
     private AdaptadorLugaresBD adaptador;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
