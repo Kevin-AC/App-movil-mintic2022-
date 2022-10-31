@@ -1,6 +1,7 @@
 package com.example.app_prueba.presentacion;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -114,9 +115,20 @@ public class EdicionLugarActivity extends AppCompatActivity {
 
     //si ud hace clic en el boton de atras el registro queda con algunos pero con el fin de no dejarlo en la base de datos
     // sobreescriba el siguiente método
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (_id !=-1){
+    //borra el registro a crear si se cumple la condición
+            lugares.borrar(_id);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (_id!=-1) lugares.borrar(_id);
+        //if (_id!=-1) lugares.borrar(_id);
+        Log.d("tag","on destroy ela");
     }
 }
