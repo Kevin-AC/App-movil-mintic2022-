@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextColor="@color/white"
-            app:contentScrim="@color/blue021859"
+            app:contentScrim="@color/blue"
             app:expandedTitleGravity="center_vertical"
             app:expandedTitleMarginStart="10dp"
             app:expandedTitleTextColor="@color/white"
