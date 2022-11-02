@@ -77,16 +77,20 @@ public class CasosUsoLugar {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-    public void eliminar_Foto(final int id, ImageView foto, View v) {
+
+
+    public void eliminar_Foto(final int id, ImageView foto, View v) {//mensaje emergente
         new AlertDialog.Builder(actividad)
                 .setTitle("Eliminar foto")
                 .setIcon(R.mipmap.icono_app)
                 .setMessage("¿Seguro de eliminar esa foto?")
                 .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        Snackbar.make(v,"Imagen eliminada",Snackbar.LENGTH_LONG).show();
-                        ponerFoto(id,"",foto);
-                    }})
+                        Toast.makeText(actividad.getApplicationContext(),"Foto Eliminada", Toast.LENGTH_LONG).show();
+                        ponerFoto(id,"", foto);
+                    }
+                })
                 .setNegativeButton("NO", null)
                 .show();
     }
@@ -140,24 +144,21 @@ public class CasosUsoLugar {
         actividad.startActivityForResult(intent,codigoSolicitud);
     }
     public void ponerFoto(int pos, String uri, ImageView imageView) {
-        Lugar lugar = lugares.elemento(pos);
+        Lugar lugar = adaptador.lugarPosicion(pos);
         lugar.setFoto(uri);
         visualizarFoto(lugar, imageView);
+        actualizaPosLugar(pos, lugar);
     }
-    public void visualizarFoto(Lugar lugar, ImageView imageView) {
-        if (lugar.getFoto() != null && !lugar.getFoto().isEmpty()) {
-            if(ContextCompat.checkSelfPermission(actividad,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            {
+    public void visualizarFoto(Lugar lugar, ImageView imageView){
+        if(lugar.getFoto()!=null && !lugar.getFoto().isEmpty()){
+            //GESTION DEL PERMISO DE LECTURA DEL ALMACENAMIENTO
+            if (ContextCompat.checkSelfPermission(actividad, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 imageView.setImageURI(Uri.parse(lugar.getFoto()));
-                imageView.setImageBitmap(reduceBitmap(actividad,lugar.getFoto(), 1024,1024));
-            }else{
+                //imageView.setImageBitmap(reduceBitmap(actividad,lugar.getFoto(),1024,1024));
+            } else {
                 imageView.setImageBitmap(null);
-                solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        "Sin permiso de lectura no es posible mostrar fotos de memoria externa",SOLICITUD_PERMISO_LECTURA,actividad);
+                solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin el permiso de lectura no es posible abrir la galeria del dispositivo", SOLICITUD_PERMISO_LECTURA, actividad);
             }
-        } else {
-            imageView.setImageBitmap(null);
         }
     }
 
@@ -194,12 +195,11 @@ public class CasosUsoLugar {
             Uri uriUltimaFoto;
             File file = File.createTempFile("img_" + (System.currentTimeMillis() / 1000), ".jpg", actividad.getExternalFilesDir(Environment.DIRECTORY_PICTURES));
             if(ContextCompat.checkSelfPermission(actividad,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_DENIED){
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
                 solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin permiso de lectura no es posible abrir camara",SOLICITUD_PERMISO_LECTURA,actividad);
                         uriUltimaFoto = Uri.parse(String.valueOf(R.mipmap.icono_app));
             }else if (Build.VERSION.SDK_INT >= 24) {
-                uriUltimaFoto = FileProvider.getUriForFile(actividad, "misiontic.uis.app_prueba.fileProvider", file);
+                uriUltimaFoto = FileProvider.getUriForFile(actividad, "misiontic.app_prueba.fileProvider", file);
             } else {
                 uriUltimaFoto = Uri.fromFile(file);
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App_Prueba</string>
+    <string name="App_Prueba">App_Prueba</string>
     <string name="mensaje_fab"> Clic en el botón fab</string>
     <string name="accion_mostrar">Mostrar Lugares</string>
     <string name="accion_preferencias">Preferencias</string>

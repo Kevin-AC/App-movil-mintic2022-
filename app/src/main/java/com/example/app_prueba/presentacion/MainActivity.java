@@ -131,11 +131,19 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
-    { super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == SOLICITUD_PERMISO_LOCALIZACION
                 && grantResults.length==1 && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
                 usoLocalizacion.permisoConcedido();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==RESULTADO_PREFERENCIAS){
+            adaptador.setCursor(lugares.extraeCursor());
+            adaptador.notifyDataSetChanged();
         }
     }
     @Override
@@ -169,13 +177,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("tag","on destroy main");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==RESULTADO_PREFERENCIAS){
-            adaptador.setCursor(lugares.extraeCursor());
-            adaptador.notifyDataSetChanged();
-        }
-    }
+
 
 }

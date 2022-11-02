@@ -8,13 +8,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".Aplicacion"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/icono_app"
-        android:label="@string/app_name"
+        android:label="@string/App_Prueba"
         android:roundIcon="@mipmap/icono_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.App_Prueba">
@@ -23,11 +25,7 @@
             android:name=".presentacion.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App_Prueba.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -59,7 +57,8 @@
             android:authorities="misiontic.app_prueba.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
         <meta-data android:name="com.google.android.geo.API_KEY"
@@ -68,6 +67,16 @@
         <activity android:name=".presentacion.MapaActivity"
             android:screenOrientation="portrait"
             tools:ignore="MissingClass"/>
+
+        <activity
+            android:name=".presentacion.LoginActivity"
+            android:theme="@style/Theme.App_Prueba.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
 
     </application>

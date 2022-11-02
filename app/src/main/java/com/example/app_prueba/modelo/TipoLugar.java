@@ -7,12 +7,12 @@ public enum TipoLugar {
     RESTAURANTE ("Restaurante", R.drawable.restaurante),
     BAR ("Bar", R.drawable.bar),
     COPAS ("Copas", R.drawable.copa),
-    ESPECTACULO ("Espectáculo",R.drawable.teatro),
+    ESPECTACULO ("Espectáculo",R.drawable.spotlight),
     HOTEL ("Hotel",R.drawable.hotel),
     COMPRAS ("Compras",R.drawable.shop),
-    EDUCACION ("Educación", R.drawable.educacion),
-    DEPORTE ("Deporte",R.drawable.deporte),
-    BANCO ("Banco",R.drawable.banco ),
+    EDUCACION ("Educación", R.drawable.atm),
+    DEPORTE ("Deporte",R.drawable.money),
+    BANCO ("Banco",R.drawable.bank),
     GASOLINERA ("Gasolinera", R.drawable.gasolinera);
 
     private final String texto;

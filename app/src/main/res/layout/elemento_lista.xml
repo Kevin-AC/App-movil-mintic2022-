@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="4dp">
-    <ImageView android:id="@+id/foto"
+    <ImageView
+        android:id="@+id/foto"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:contentDescription="fotografía"
         android:src="@drawable/bar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
-    <TextView android:id="@+id/nombre"
+    <TextView
+        android:id="@+id/nombre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nombres del lugar"
@@ -22,7 +24,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foto"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView android:id="@+id/direccion"
+    <TextView
+        android:id="@+id/direccion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -31,7 +34,8 @@
         app:layout_constraintTop_toBottomOf="@id/nombre"
         app:layout_constraintStart_toEndOf="@+id/foto"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <RatingBar android:id="@+id/valoracion"
+    <RatingBar
+        android:id="@+id/valoracion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:attr/ratingBarStyleSmall"

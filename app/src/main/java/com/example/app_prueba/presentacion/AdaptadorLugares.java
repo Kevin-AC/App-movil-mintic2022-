@@ -42,12 +42,12 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
                 case RESTAURANTE:id = R.drawable.restaurante; break;
                 case BAR: id = R.drawable.bar; break;
                 case COPAS: id = R.drawable.copa; break;
-                case ESPECTACULO:id = R.drawable.teatro; break;
+                case ESPECTACULO:id = R.drawable.spotlight; break;
                 case HOTEL: id = R.drawable.hotel; break;
                 case COMPRAS: id = R.drawable.shop; break;
-                case EDUCACION: id = R.drawable.educacion; break;
-                case DEPORTE: id = R.drawable.deporte; break;
-                case BANCO: id = R.drawable.banco; break;
+                case EDUCACION: id = R.drawable.atm; break;
+                case DEPORTE: id = R.drawable.money; break;
+                case BANCO: id = R.drawable.bank; break;
                 case GASOLINERA: id = R.drawable.gasolinera; break;
             }
             foto.setImageResource(id);

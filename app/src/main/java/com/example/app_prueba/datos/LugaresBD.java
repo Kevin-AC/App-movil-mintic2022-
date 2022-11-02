@@ -72,7 +72,10 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
         }catch (Exception e){
             throw  e;
         }finally {
-            if (cursor!=null) cursor.close();
+            if (cursor!=null) {
+                cursor.close();
+            }
+
         }
     }
     @Override
@@ -105,7 +108,8 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
     }
     @Override
     public void actualizar(int id, Lugar lugar) {
-        String consulta = "UPDATE lugares SET " +
+        getWritableDatabase().execSQL("UPDATE lugares SET" +
+       // String consulta = "UPDATE lugares SET " +
                 " nombre = '"+lugar.getNombre()+
                 "', direccion = '"+lugar.getDireccion()+
                 "', longitud = "+lugar.getPosicion().getLongitud()+
@@ -117,9 +121,9 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
                 "', comentario = '"+lugar.getComentario()+
                 "', fecha= "+lugar.getFecha()+
                 ", valoracion = "+lugar.getValoracion()+
-                " WHERE _id= "+id;
-        Log.d("tag"," consulta update "+ consulta);
-        getWritableDatabase().execSQL(consulta);
+                " WHERE _id= "+id);
+       // Log.d("tag"," consulta update "+ consulta);
+        //getWritableDatabase().execSQL(consulta);
     }
 
 

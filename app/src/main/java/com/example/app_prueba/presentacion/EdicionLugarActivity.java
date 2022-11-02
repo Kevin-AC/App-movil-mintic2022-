@@ -119,16 +119,20 @@ public class EdicionLugarActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (_id !=-1){
-    //borra el registro a crear si se cumple la condición
+        Log.d("tag","on stop ela ");
+            if (_id !=-1 & nombre.getText().toString().isEmpty()){
+            Log.d("tag","borrar"+lugar.toString());
             lugares.borrar(_id);
+            } else {
+            Log.d("tag"," no borrar"+lugar.toString());
         }
     }
-
+/*
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //if (_id!=-1) lugares.borrar(_id);
         Log.d("tag","on destroy ela");
     }
+    */
 }

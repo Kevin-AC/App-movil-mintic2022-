@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapaActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private GoogleMap mapa;
-    private RepositorioLugares lugares;
+    //private RepositorioLugares lugares;
     private AdaptadorLugaresBD adaptador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             mapa.setMyLocationEnabled(true);
             mapa.getUiSettings().setZoomControlsEnabled(true);
@@ -51,17 +50,16 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         if (adaptador.getItemCount()>0) {
             GeoPunto p = adaptador.lugarPosicion(0).getPosicion();
             mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(p.getLatitud(), p.getLongitud()), 13));
+                    new LatLng(p.getLatitud(), p.getLongitud()), 10));
         }
         for (int n=0; n<adaptador.getItemCount();n++) {
             Lugar lugar = adaptador.lugarPosicion(n);
             GeoPunto p = lugar.getPosicion();
             if (p!= null && p.getLatitud() != 0) {
-                Bitmap iGrande = BitmapFactory.decodeResource(
-                        getResources(), lugar.getTipo().getRecurso());
+                Bitmap iGrande = BitmapFactory.decodeResource(getResources(), lugar.getTipo().getRecurso());
                 Bitmap icono = Bitmap.createScaledBitmap(iGrande,
-                        iGrande.getWidth() / 7,
-                        iGrande.getHeight() / 7, false);
+                        iGrande.getWidth() / 12,
+                        iGrande.getHeight() / 12, false);
                 mapa.addMarker(new MarkerOptions()
                         .position(new LatLng(p.getLatitud(), p.getLongitud()))
                         .title(lugar.getNombre())
