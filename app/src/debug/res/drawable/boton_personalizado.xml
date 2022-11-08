@@ -6,7 +6,7 @@
             <corners android:radius="25.0dip" />
             <stroke android:width="0.2dip"
                 android:color="@color/teal_700" />
-            <solid android:color="@color/blue"/>
+            <solid android:color="@color/white"/>
         </shape>
     </item>
     <item android:state_focused="true">
@@ -21,8 +21,8 @@
         <shape android:shape="rectangle">
             <corners android:radius="25.0dip" />
             <stroke android:width="0.2dip"
-                android:color="@color/purple_200" />
-            <solid android:color="@color/purple_200" />
+                android:color="@color/white" />
+            <solid android:color="@color/white" />
         </shape>
     </item>
 

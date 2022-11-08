@@ -3,6 +3,7 @@ package com.example.app_prueba.caso_uso;
 import static com.example.app_prueba.caso_uso.CasosUsoLocalizacion.solicitarPermiso;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -85,12 +86,10 @@ public class CasosUsoLugar {
                 .setIcon(R.mipmap.icono_app)
                 .setMessage("¿Seguro de eliminar esa foto?")
                 .setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                    @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Toast.makeText(actividad.getApplicationContext(),"Foto Eliminada", Toast.LENGTH_LONG).show();
                         ponerFoto(id,"", foto);
-                    }
-                })
+                    }})
                 .setNegativeButton("NO", null)
                 .show();
     }
@@ -130,7 +129,7 @@ public class CasosUsoLugar {
                 Uri.encode(lugar.getDireccion())+ "\n" + lugar.getPosicion() + "geopto "+ GeoPunto.SIN_POSICION);
                 actividad.startActivity(new Intent("android.intent.action.VIEW", uri));
     }
-
+    @SuppressLint("IntentReset")
     public void ponerDeGaleria(int codigoSolicitud) {
         String action;
         if (Build.VERSION.SDK_INT>=19){

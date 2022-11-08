@@ -1,6 +1,6 @@
 package com.example.app_prueba.presentacion;
 
-import android.annotation.SuppressLint;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.app_prueba.R;
+import com.example.app_prueba.datos.Usuarios;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -40,7 +41,6 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
     private static final int RC_GOOGLE_SIGN_IN = 123;
     private GoogleApiClient googleApiClient;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +49,12 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
         etContraseña = findViewById(R.id.contraseña);
         tilCorreo = findViewById(R.id.til_correo);
         tilContraseña = findViewById(R.id.til_contraseña);
-        contenedor = findViewById(R.id.contenedor);//se creo id en ids.xml 
+        contenedor = findViewById(R.id.contenedor);
+
         dialogo = new ProgressDialog(this);
         dialogo.setTitle("Verificando usuario");
         dialogo.setMessage("Por favor espere...");
-//sesion google
+            //sesion google
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -102,6 +103,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
 
     private void verificaSiUsuarioValidado() {
         if (auth.getCurrentUser() != null) {
+            Usuarios.guardarUsuario(auth.getCurrentUser());
             Intent i = new Intent(this, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                     | Intent.FLAG_ACTIVITY_NEW_TASK
@@ -159,8 +161,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
     private boolean verificaCampos() {
         correo = etCorreo.getText().toString();
         contraseña = etContraseña.getText().toString();
-        tilCorreo.setError("");
-        tilContraseña.setError("");
+        tilCorreo.setError("");tilContraseña.setError("");
         if (correo.isEmpty()) {
             tilCorreo.setError("Introduce un correo");
         } else if (!correo.matches(".+@.+[.].+")) {
@@ -177,5 +178,28 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
             return true;
         }
         return false;
+    }
+
+    public void restablecer_contra (View v) {
+        correo = etCorreo.getText().toString();
+        tilCorreo.setError("");
+        if (correo.isEmpty()) {
+            tilCorreo.setError("Introduce un correo");
+        } else if (!correo.matches(".+@.+[.].+")) {
+            tilCorreo.setError("Correo no válido");
+        } else {
+            dialogo.show();
+            auth.sendPasswordResetEmail(correo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    dialogo.dismiss();
+                    if (task.isSuccessful()) {
+                        mensaje("Revise la bandeja de entrada o spam de: "+correo);
+                    } else {
+                        mensaje("ERROR al mandar correo para cambiar contraseña");
+                    }
+                }
+            });
+        }
     }
 }

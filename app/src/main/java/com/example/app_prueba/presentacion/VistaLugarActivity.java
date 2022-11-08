@@ -29,14 +29,15 @@ public class VistaLugarActivity extends AppCompatActivity {
 
     //private RepositorioLugares lugares;
     //PERMISO GALERIA READ_EXTERNAL_STORAGE
-    private static final int SOLICITUD_PERMISO_LECTURA = 0;
+
     private CasosUsoLugar usoLugar;
     private int pos, _id=-1;
     private Lugar lugar;
-    final static int RESULTADO_EDITAR = 1;
     private TextView nombre, tipo, direccion, telefono, url, comentario, fecha, hora;
     private ImageView logo_tipo,foto, galeria, camara,eliminar;
     private RatingBar valoracion;
+    private static final int SOLICITUD_PERMISO_LECTURA = 0;
+    final static int RESULTADO_EDITAR = 1;
     final static int RESULTADO_GALERIA = 2;
     final static int RESULTADO_FOTO = 3;
     private Uri uriUltimaFoto;

@@ -18,7 +18,7 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
 
     Context contexto;
     public LugaresBD(Context contexto){
-        super(contexto,"lugares",null,1);
+        super(contexto,"lugares.db",null,1);
         this.contexto = contexto;
     }
 
@@ -37,7 +37,8 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
                 "url TEXT, " +
                 "comentario TEXT, " +
                 "fecha BIGINT, " +
-                "valoracion REAL)");
+                "valoracion REAL)"
+        );
         //SENTENCIA SQL PARA INSERTAR UN DATO EN LA TABLA lugares revisar
         // el orden de los campos con el QUERY anterior
         db.execSQL("INSERT INTO lugares VALUES (null, "+"'LA UIS', "+"'Cra 27#9, Bucaramanga, Santander', -73.121, 7.1377, "+
@@ -49,11 +50,11 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
         db.execSQL("INSERT INTO lugares VALUES (null, "+ "'Movistar Arena', "+ "'Diagonal. 61c #26-36, Bogotá, Cundinamarca',- 74.07695,4.64888,"+
         TipoLugar.ESPECTACULO.ordinal() + ", '', 5470183, "+ "'https://movistararena.co/', "+ "'Centro de eventos en Bogotá', "+
                 System.currentTimeMillis() +", 4.0)");
-        db.execSQL("INSERT INTO lugares VALUES (null, "+ "'Bancolombia', "+ "'Silos, Santander',-72.90982,7.2466845, "+
-                TipoLugar.BANCO.ordinal() + ", '', 0, "+ "'', "+ "'Centro de eventos en Bogotá', "+
-                System.currentTimeMillis() +", 4.0)");
-        db.execSQL("INSERT INTO lugares VALUES (null, "+ "'Loma Mesa de Ruitoque', "+ "'Loma Mesa de Ruitoque, Floridablanca, Santander',0,0, "+
-                TipoLugar.BAR.ordinal() + ", '', 0, "+ "'', "+ "'Centro de eventos en Bogotá', "+
+        db.execSQL("INSERT INTO lugares VALUES (null, "+ "'Bancolombia Sucursal', "+ "'AV CL 26 N° 68B-31 LOCAL 101 Bogota D.C, Cundinamarca',-74.1716087,4.6555073, "+
+                TipoLugar.BANCO.ordinal() + ", '', 0180025, "+ "'www.bancolombia.com', "+ "'Centro Bogotá', "+
+                System.currentTimeMillis() +", 5.0)");
+        db.execSQL("INSERT INTO lugares VALUES (null, "+ "'Beer Corner', "+ "'Diagonal 100, Cra. 106c, Apartadó, Antioquia',-76.6416017,7.8870868, "+
+                TipoLugar.BAR.ordinal() + ", '', 828566, "+ "'', "+ "'Centro de eventos', "+
                         System.currentTimeMillis() +", 4.0)");
     }
 
@@ -62,13 +63,13 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
     }
     @Override
     public Lugar elemento(int id) {
-        Cursor cursor = getReadableDatabase()
-                .rawQuery("SELECT * FROM lugares WHERE _id = "+id,null);
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM lugares WHERE _id = "+id,null);
         try {
-            if (cursor.moveToNext())
+            if (cursor.moveToNext()){
                 return extraeLugar(cursor);
-            else throw new SQLException("Error al consultar en la base de datos con el ID "+id);
-
+            } else{
+                throw new SQLException("Error al consultar en la base de datos con el ID "+id);
+            }
         }catch (Exception e){
             throw  e;
         }finally {

@@ -17,15 +17,20 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.app_prueba.Aplicacion;
+import com.example.app_prueba.Firebase.AdaptadorLugaresFirestore;
 import com.example.app_prueba.R;
 import com.example.app_prueba.caso_uso.CasosUsoActividad;
 import com.example.app_prueba.caso_uso.CasosUsoLocalizacion;
 
 import com.example.app_prueba.caso_uso.CasosUsoLugar;
 import com.example.app_prueba.datos.LugaresBD;
+import com.example.app_prueba.modelo.Lugar;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     //base de datos sqlite
     private AdaptadorLugaresBD adaptador;
     private LugaresBD lugares;
+    private AdaptadorLugaresFirestore adaptadorLugaresFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +58,10 @@ public class MainActivity extends AppCompatActivity {
         usoLugar = new CasosUsoLugar(this,lugares,adaptador);
         usoLocalizacion = new CasosUsoLocalizacion(this,SOLICITUD_PERMISO_LOCALIZACION);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        /*recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adaptador);
-
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 //recyclerView.getChildAdapterPosition(v);
                 usoLugar.mostrar(posicion);
             }
-        });
+        });}*/
 
         //barra de acciones
         Toolbar toolbar = findViewById(R.id.toolbar_Main);
@@ -81,6 +86,28 @@ public class MainActivity extends AppCompatActivity {
                 usoLugar.nuevo();
             }
         });
+        /*
+        //importar lugaresDB a cloud firestore
+        FirebaseFirestore firestoreDB_lugares = FirebaseFirestore.getInstance();
+            for(int id=0; id<adaptador.getItemCount();id++){
+            Log.d("MAIN","tamaño base datos ->"+adaptador.lugarPosicion(id));firestoreDB_lugares.collection("lugares").add(adaptador.lugarPosicion(id)
+            );
+        }*/
+        //base dee datos en la nueve
+        cargarInfoFromFirestore();
+        adaptadorLugaresFirestore.startListening();
+    }
+    public void cargarInfoFromFirestore(){
+        Query query = FirebaseFirestore.getInstance().collection("lugares").limit(50);
+        FirestoreRecyclerOptions<Lugar> opciones = new FirestoreRecyclerOptions
+                        .Builder<Lugar>().setQuery(query,Lugar.class).build();
+        adaptadorLugaresFirestore = new AdaptadorLugaresFirestore(opciones,this);
+        Log.d("TAG MAIN","cargarfirestore " + query.toString() +
+                "\nrecycler"+opciones.toString());
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adaptadorLugaresFirestore);
     }
 
     @Override
@@ -106,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.menu_usuario){
+            usoActividades.lanzarUsuario();
             return true;
         }
         if (id == R.id.menu_mapa){
@@ -130,22 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == SOLICITUD_PERMISO_LOCALIZACION
-                && grantResults.length==1 && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
-                usoLocalizacion.permisoConcedido();
-        }
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==RESULTADO_PREFERENCIAS){
-            adaptador.setCursor(lugares.extraeCursor());
-            adaptador.notifyDataSetChanged();
-        }
-    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -159,22 +172,41 @@ public class MainActivity extends AppCompatActivity {
         Log.d("tag MA", "onresume main ");
        usoLocalizacion.activar();
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == SOLICITUD_PERMISO_LOCALIZACION
+                && grantResults.length==1 && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
+            usoLocalizacion.permisoConcedido();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==RESULTADO_PREFERENCIAS){
+            adaptador.setCursor(lugares.extraeCursor());
+            adaptador.notifyDataSetChanged();
+        }
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d("tag","on start main");
+        adaptadorLugaresFirestore.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d("tag","on stop main");
+        adaptadorLugaresFirestore.stopListening();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d("tag","on destroy main");
+        adaptadorLugaresFirestore.stopListening();
     }
 
 

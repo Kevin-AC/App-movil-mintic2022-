@@ -4,16 +4,16 @@ import com.example.app_prueba.R;
 
 public enum TipoLugar {
     OTROS ("Otros", R.drawable.otros),
-    RESTAURANTE ("Restaurante", R.drawable.restaurante),
+    RESTAURANTE ("Restaurante", R.drawable.cuchilleria),
     BAR ("Bar", R.drawable.bar),
-    COPAS ("Copas", R.drawable.copa),
+    COPAS ("Copas", R.drawable.cerveza),
     ESPECTACULO ("Espectáculo",R.drawable.spotlight),
     HOTEL ("Hotel",R.drawable.hotel),
-    COMPRAS ("Compras",R.drawable.shop),
-    EDUCACION ("Educación", R.drawable.atm),
-    DEPORTE ("Deporte",R.drawable.money),
+    COMPRAS ("Compras",R.drawable.tienda),
+    EDUCACION ("Educación", R.drawable.colegio),
+    DEPORTE ("Deporte",R.drawable.estadio),
     BANCO ("Banco",R.drawable.bank),
-    GASOLINERA ("Gasolinera", R.drawable.gasolinera);
+    GASOLINERA ("Gasolinera", R.drawable.bombagasolina);
 
     private final String texto;
     private final int recurso; //referencia a archivo img del lugar

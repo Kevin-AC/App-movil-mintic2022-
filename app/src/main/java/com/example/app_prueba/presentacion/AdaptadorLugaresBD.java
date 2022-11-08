@@ -19,6 +19,7 @@ public class AdaptadorLugaresBD extends AdaptadorLugares {
     }
 
     public void setCursor(Cursor cursor) {
+
         this.cursor = cursor;
     }
     public Lugar lugarPosicion(int posicion){
@@ -30,7 +31,8 @@ public class AdaptadorLugaresBD extends AdaptadorLugares {
         if (cursor.getCount()>0){
             return cursor.getInt(0);
         }
-        else {return -1;
+        else {
+            return -1;
         }
     }
     public int posicionId(int id){

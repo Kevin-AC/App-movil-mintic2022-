@@ -11,7 +11,8 @@ public class GeoPunto {
         this.longitud = longitud;
         this.latitud = latitud;
     }
-
+    public GeoPunto() {
+    }
     @Override
     public String toString() {
         return "GeoPunto{" +

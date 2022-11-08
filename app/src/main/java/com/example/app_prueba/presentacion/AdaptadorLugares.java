@@ -25,6 +25,7 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
         public TextView nombre, direccion,distancia;
         public ImageView foto;
         public RatingBar valoracion;
+
         public ViewHolder(View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombre);
@@ -39,16 +40,16 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.View
             direccion.setText(lugar.getDireccion());
             int id = R.drawable.otros;
             switch(lugar.getTipo()) {
-                case RESTAURANTE:id = R.drawable.restaurante; break;
+                case RESTAURANTE:id = R.drawable.cuchilleria; break;
                 case BAR: id = R.drawable.bar; break;
-                case COPAS: id = R.drawable.copa; break;
+                case COPAS: id = R.drawable.cerveza; break;
                 case ESPECTACULO:id = R.drawable.spotlight; break;
                 case HOTEL: id = R.drawable.hotel; break;
-                case COMPRAS: id = R.drawable.shop; break;
-                case EDUCACION: id = R.drawable.atm; break;
-                case DEPORTE: id = R.drawable.money; break;
+                case COMPRAS: id = R.drawable.tienda; break;
+                case EDUCACION: id = R.drawable.colegio; break;
+                case DEPORTE: id = R.drawable.estadio; break;
                 case BANCO: id = R.drawable.bank; break;
-                case GASOLINERA: id = R.drawable.gasolinera; break;
+                case GASOLINERA: id = R.drawable.bombagasolina; break;
             }
             foto.setImageResource(id);
             foto.setScaleType(ImageView.ScaleType.FIT_END);
